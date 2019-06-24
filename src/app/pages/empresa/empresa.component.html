@@ -1,0 +1,134 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+
+                    <!-- Nav tabs -->
+                    <div *ngIf="cargando_tabla ">
+                        <app-loading1></app-loading1>
+                    </div>
+
+
+
+                    <div class="row animated fadeIn " *ngIf="!cargando_tabla ">
+                        <div class="col-12 ">
+                            <div class="card ">
+                                <div class="card-body ">
+                                    <div class="col-12 ">
+                                        <div class="row ">
+                                            <div class="col-md-12 ">
+                                                <div class="form-group row ">
+                                                    <h2>Lista</h2>
+                                                </div>
+                                                <div class="form-group row ">
+                                                    <input type="text " class="form-control col-md-9" placeholder="Buscar.... " name="search " [(ngModel)]="filter" DirectivaMayusculas>
+                                                    <div class="col-md-3">
+                                                        <button type="button" class="btn btn-info col-md-10" data-toggle="modal" data-target="#modalForm" (click)="insertar()">
+                                            <i class="fa fa-plus"></i> Nuevo
+                                            </button>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row ">
+                                                    <div class="table-responsive pointer col-md-12 ">
+                                                        <table class="table color-bordered-table primary-bordered-table ">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Código</th>
+                                                                    <th scope="col">Nombre</th>
+                                                                    <th scope="col">RUC</th>
+                                                                    <th scope="col">Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let empresa of listaEmpresa | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
+                                                                    <td scope="row" data-label="Código">{{empresa.pk_empre}}</td>
+                                                                    <td data-label="Nombre">{{empresa.nombre_empre}}</td>
+                                                                    <td data-label="RUC">{{empresa.ruc_empre}}</td>
+                                                                    <td data-label="Acción">
+                                                                        <div class="btn-group">
+                                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                          <i class="fa fa-file-o"></i>
+                                                                          </button>
+                                                                            <div class="dropdown-menu">
+                                                                                <a class="dropdown-item pointer" data-toggle="modal" data-target="#modalForm" (click)="editar(empresa)">Editar</a>
+                                                                                <a class="dropdown-item pointer" (click)="eliminar(empresa)">Eliminar</a>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot></tfoot>
+                                                        </table>
+
+                                                        <br>
+
+                                                        <div class="col-12 ">
+                                                            <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ empresaTarget | json }}
+
+<div class="modal fade" id="modalForm" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalFormLabel1">Registro Empresa</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+            </div>
+            <div class="modal-body">
+                <div *ngIf="cargando_accion">
+                    <app-loading2></app-loading2>
+                </div>
+                <div *ngIf="!cargando_accion">
+                    <form #formularioEmpresa="ngForm" ngNativeValidate (ngSubmit)="guardar()">
+                        <div class="form-group">
+                            <label for="txt1" class="control-label">* RUC:</label>
+                            <input type="text" class="form-control" [(ngModel)]="empresaTarget.ruc_empre" name="ruc_empre" id="txt1" placeholder="Ingrese RUC" required DirectivaNumeros>
+                        </div>
+                        <div class="form-group">
+                            <label for="txt2" class="control-label">* Nombre:</label>
+                            <input type="text" class="form-control" [(ngModel)]="empresaTarget.nombre_empre" name="nombre_empre" id="txt2" placeholder="Ingrese Nombre" required DirectivaMayusculas>
+                        </div>
+                        <div class="form-group">
+                            <label for="txt3" class="control-label">* Teléfono:</label>
+                            <input type="text" class="form-control" [(ngModel)]="empresaTarget.telefono_empre" name="telefono_empre" id="txt3" placeholder="Ingrese Teléfono" required DirectivaNumeros>
+                        </div>
+                        <div class="form-group">
+                            <label for="txt4" class="control-label">* Dirección:</label>
+                            <textarea type="text" class="form-control" [(ngModel)]="empresaTarget.direccion_empre" name="direccion_empre" placeholder="Ingrese Dirección" id="txt4" required DirectivaMayusculas>
+                        </textarea>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" [disabled]="cargando_accion" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+                            <button type="submit" [disabled]="cargando_accion || formularioEmpresa.invalid" class="btn btn-success"> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

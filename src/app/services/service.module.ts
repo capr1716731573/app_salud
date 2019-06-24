@@ -1,0 +1,42 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { SettingsService,SidebarService,SharedService } from "./services.index";
+import { GeografiaService } from './geografia.service';
+import { TipoIdentificacionService } from './tipo-identificacion.service';
+import { ProfesionesService } from './profesiones.service';
+import { NivelEducacionService } from './nivel-educacion.service';
+import { PerfilService } from './perfil.service';
+import { TipoExamenService } from './tipo-examen.service';
+import { TipoOrganosSistemasService } from './tipo-organos-sistemas.service';
+import { AuxiliarDiagnosticoService } from './auxiliar-diagnostico.service';
+import { Cie10Service } from './cie10.service';
+import { EmpresaService } from './empresa.service';
+import { PersonaService } from './persona.service';
+import { UsuarioService } from './usuario.service';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    HttpClientModule
+  ],
+  providers:[
+    SettingsService,
+    SidebarService,
+    SharedService,
+    GeografiaService,
+    TipoIdentificacionService,
+    ProfesionesService,
+    NivelEducacionService,
+    PerfilService,
+    TipoExamenService,
+    TipoOrganosSistemasService,
+    AuxiliarDiagnosticoService,
+    Cie10Service,
+    EmpresaService,
+    PersonaService,
+    UsuarioService
+  ],
+  declarations: []
+})
+export class ServiceModule { }

@@ -1,0 +1,139 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+
+                    <div class="row animated fadeIn ">
+                        <div class="col-12 ">
+                            <div class="card ">
+                                <div class="card-body ">
+                                    <div class="col-12 ">
+                                        <div class="row ">
+                                            <div class="col-md-12 ">
+                                                <div class="form-group row ">
+                                                    <h2>Lista</h2>
+                                                </div>
+                                                <div class="form-group row ">
+                                                    <input type="text " #variableBusqueda (keyup)="buscar( variableBusqueda.value )" class="form-control col-md-9" placeholder="Buscar.... " name="search " DirectivaMayusculas>
+                                                    <div class="col-md-3">
+                                                        <button type="button" class="btn btn-info col-md-10" data-toggle="modal" data-target="#modalForm" (click)="insertar()">
+                                              <i class="fa fa-plus"></i> Nuevo
+                                              </button>
+                                                    </div>
+                                                </div>
+                                                <!-- Nav tabs -->
+                                                <div *ngIf="cargando_tabla">
+                                                    <app-loading1></app-loading1>
+                                                </div>
+
+                                                <div class="form-group row " *ngIf="!cargando_tabla ">
+                                                    <div class="table-responsive pointer col-md-12 ">
+                                                        <table class="table color-bordered-table primary-bordered-table table-striped ">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Código</th>
+                                                                    <th scope="col">Nombre</th>
+                                                                    <th scope="col">Estado</th>
+                                                                    <th scope="col">Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let cie10 of listaCIE10; let i=index ">
+                                                                    <td scope="row" data-label="Código">{{cie10.codigo_cie}}</td>
+                                                                    <td data-label="Nombre">{{cie10.nombre_cie}}</td>
+                                                                    <td data-label="Estado">
+                                                                        <button *ngIf="cie10.estado_cie === true" type="button" class="btn btn-success btn-circle"><i class="fa fa-check"></i> </button>
+                                                                        <button *ngIf="cie10.estado_cie === false" type="button" class="btn btn-danger btn-circle"><i class="fa fa-times"></i> </button>
+                                                                    </td>
+                                                                    <td data-label="Acción">
+                                                                        <div class="btn-group">
+                                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="fa fa-file-o"></i>
+                                                                            </button>
+                                                                            <div class="dropdown-menu">
+                                                                                <a class="dropdown-item pointer" data-toggle="modal" data-target="#modalForm" (click)="editar(cie10)">Editar</a>
+                                                                                <a class="dropdown-item pointer" (click)="eliminar(cie10)">Eliminar</a>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot></tfoot>
+                                                        </table>
+
+                                                        <br>
+
+                                                        <div class="col-12" *ngIf="variableBusqueda.value.length === 0">
+                                                            <ul class="pagination">
+
+                                                                <li class="page-item">
+                                                                    <a class="page-link pointer" (click)="cambiarDesde(-10)">Anterior</a>
+                                                                </li>
+                                                                <li class="page-item"><a class="page-link pointer" (click)="cambiarDesde(10)">Siguiente</a></li>
+
+
+                                                            </ul>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalForm" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalFormLabel1">Registro CIE-10</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+            </div>
+            <div class="modal-body">
+                <div *ngIf="cargando_accion">
+                    <app-loading2></app-loading2>
+                </div>
+                <div *ngIf="!cargando_accion">
+                    <form #formularioCie10="ngForm" ngNativeValidate (ngSubmit)="guardar()">
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label">Código:</label>
+                            <input type="text" class="form-control" [(ngModel)]="cie10Target.codigo_cie" name="codigo_cie" id="txt1" placeholder="Ingrese Código" required DirectivaMayusculas>
+                        </div>
+                        <div class="form-group">
+                            <label for="txt2" class="control-label">Nombre:</label>
+                            <textarea type="text" class="form-control" [(ngModel)]="cie10Target.nombre_cie" name="nombre_cie" placeholder="Ingrese Nombre" id="txt2" required DirectivaMayusculas>
+                          </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Estado:</label>
+                            <div class="switch">
+                                <label>Inactivo
+                              <input type="checkbox" [(ngModel)]="cie10Target.estado_cie" name="estado_cie" checked><span class="lever switch-col-red"></span>Activo</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" [disabled]="cargando_accion" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+                            <button type="submit" [disabled]="cargando_accion || formularioCie10.invalid" class="btn btn-success"> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

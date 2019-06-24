@@ -1,0 +1,92 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+
+                    <div class="row animated fadeIn ">
+                        <div class="col-12 ">
+                            <div class="card-body ">
+                                <div class="col-12 ">
+                                    <div class="row ">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group row ">
+                                                <h2>Lista</h2>
+                                            </div>
+                                            <div class="form-group row ">
+                                                <input type="text " #variableBusqueda (keyup)="buscar( variableBusqueda.value )" class="form-control col-md-9" placeholder="Buscar.... " name="search " DirectivaMayusculas>
+                                                <div class="col-md-3">
+                                                    <button type="button" class="btn btn-info col-md-10" (click)="insertar()">
+                                          <i class="fa fa-plus"></i> Nuevo
+                                          </button>
+                                                </div>
+                                            </div>
+                                            <!-- Nav tabs -->
+                                            <div *ngIf="cargando_tabla">
+                                                <app-loading1></app-loading1>
+                                            </div>
+
+                                            <div class="form-group row " *ngIf="!cargando_tabla ">
+                                                <div class="table-responsive pointer col-md-12 ">
+                                                    <table class="table color-bordered-table primary-bordered-table table-striped ">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Código</th>
+                                                                <th scope="col">Identificacion</th>
+                                                                <th scope="col">Nombres</th>
+                                                                <th scope="col">Usuario</th>
+                                                                <th scope="col">Acción</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let usuario of listaUsuarios; let i=index ">
+                                                                <td scope="row" data-label="Código">{{usuario.pk_user}}</td>
+                                                                <td data-label="Identificacion">{{usuario.numidentificacion_person}}</td>
+                                                                <td data-label="Nombres">{{usuario.nombres_person}} {{usuario.apellidos_person}}</td>
+                                                                <td data-label="Usuario">{{usuario.usuario_user}}</td>
+
+                                                                <td data-label="Acción">
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="fa fa-file-o"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-menu">
+                                                                            <a class="dropdown-item pointer" (click)="editar(usuario.pk_user)">Editar</a>
+                                                                            <a class="dropdown-item pointer" (click)="eliminar(usuario)">Eliminar</a>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot></tfoot>
+                                                    </table>
+
+                                                    <br>
+
+                                                    <div class="col-12" *ngIf="variableBusqueda.value.length === 0">
+                                                        <ul class="pagination">
+
+                                                            <li class="page-item">
+                                                                <a class="page-link pointer" (click)="cambiarDesde(-10)">Anterior</a>
+                                                            </li>
+                                                            <li class="page-item"><a class="page-link pointer" (click)="cambiarDesde(10)">Siguiente</a></li>
+
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,185 @@
+<!-- Nav tabs -->
+<div *ngIf="cargando_tabla">
+    <app-loading1></app-loading1>
+</div>
+<div *ngIf="!cargando_tabla">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"><b>* Tipo Identificación</b></label>
+                <ng-select [(ngModel)]="personaTarget.pk_tipiden" (change)="onChangeTipDoc($event)" name="pk_tipiden" bindValue="pk_tipiden" placeholder="Seleccione.." bindLabel="nombre_tipiden" [items]="listaTipoIdentificacion" required DirectivaMayusculas>
+                    <ng-template ng-option-tmp let-item="item">
+                        {{item.nombre_tipiden}}
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"><b>* Número</b>&nbsp;&nbsp; </label> <a class="mytooltip tooltip-effect-8" href="#"><i class="fa fa-info-circle"></i>
+                    <span class="mytooltip tooltip-effect-1">
+                            <span class="tooltip-content clearfix">
+                                <img src="assets/images/tooltip/Euclid.png" alt="euclid" /><span class="tooltip-text">Inserte el número de identificación y presione ENTER para validar y cargar información de la persona en caso de estar registrada en el sistema.</span> </span>
+                        </span>
+                </a>
+                <input type="text" class="form-control" (keydown.enter)="validarTipoDocumento($event)" [(ngModel)]="personaTarget.numidentificacion_person" name="numidentificacion_person" [disabled]="!personaTarget.pk_tipiden" placeholder="Ingrese Número" required DirectivaNumeros>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"><b>* Fecha Nacimiento</b></label>
+                <div class="input-group">
+                    <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="personaTarget.fechanac_person" name="fechanac_person" required>
+                    <span class="input-group-addon"><i class="icon-calender"></i></span> </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"><b>* Sexo</b></label>
+                <select class="form-control custom-select" [(ngModel)]="personaTarget.sexo_person" name="estado_proccontsexo_personra" placeHolder="Seleccione Sexo" required>
+                <option id="opt1" value="null" disabled>Seleccione Sexo</option>
+                <option id="opt2" value="M">MASCULINO</option>
+                <option id="opt3" value="F">FEMENINO</option>
+                <option id="opt4" value="F">OTROS</option>
+              </select>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><b>* Nombres</b></label>
+                <input type="text" class="form-control" [(ngModel)]="personaTarget.nombres_person" name="nombres_person" placeholder="Ingrese Nombres" required DirectivaMayusculas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><b>* Apellidos</b></label>
+                <input type="text" class="form-control" [(ngModel)]="personaTarget.apellidos_person" name="apellidos_person" placeholder="Ingrese Apellidos" required DirectivaMayusculas>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"><b>* Estado Civil</b></label>
+                <select class="form-control custom-select" [(ngModel)]="personaTarget.estadocivil_person" name="estadocivil_person" placeHolder="Seleccione Estado" required>
+                <option id="opt1" value="null" disabled>Seleccione Estado</option>
+                <option id="opt2" value="C">CASADO(A)</option>
+                <option id="opt3" value="D">DIVORCIADO(A)</option>
+                <option id="opt4" value="V">VIUDO(A)</option>
+                <option id="opt5" value="UH">UNION DE HECHO</option>
+                <option id="opt6" value="S">SOLTERO(A)</option>
+              </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"><b>Teléfono</b></label>
+                <input type="text" class="form-control" [(ngModel)]="personaTarget.telefono_person" name="telefono_person" placeholder="Ingrese Teléfono">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"><b>* Celular</b></label>
+                <input type="text" class="form-control" [(ngModel)]="personaTarget.celular_person" name="celular_person" placeholder="Ingrese Celular" required>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"><b>Correo</b></label>
+                <input type="email" class="form-control" [(ngModel)]="personaTarget.correo_person" name="correo_person" placeholder="Ingrese Correo">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label class="control-label"><b>* País</b></label>
+            <ng-select [(ngModel)]="pais" [clearable]="false" (change)="cargarProvincias()" name="pk_ubigeo" bindValue="pk_ubigeo" placeholder="Seleccione País" bindLabel="nombre_ubigeo" [items]="listaPais" appendTo="body" required DirectivaMayusculas>
+
+                <ng-template ng-option-tmp let-item="item">
+                    {{item.nombre_ubigeo}}
+                </ng-template>
+            </ng-select>
+        </div>
+        <div class="col-md-3">
+            <label class="control-label"><b>* Provincia</b></label>
+            <ng-select [(ngModel)]="provincia" [clearable]="false" (change)="cargarCiudades()" name="pk_ubigeo2" bindValue="pk_ubigeo" placeholder="Seleccione Provincia" bindLabel="nombre_ubigeo" [items]="listaProvincia" appendTo="body" required DirectivaMayusculas>
+
+                <ng-template ng-option-tmp let-item="item">
+                    {{item.nombre_ubigeo}}
+                </ng-template>
+            </ng-select>
+        </div>
+        <div class="col-md-3">
+            <label class="control-label"><b>* Ciudad</b></label>
+            <ng-select [(ngModel)]="ciudad" [clearable]="false" (change)="cargarParroquias()" name="pk_ubigeo3" bindValue="pk_ubigeo" placeholder="Seleccione Ciudad" bindLabel="nombre_ubigeo" [items]="listaCiudad" appendTo="body" required DirectivaMayusculas>
+
+                <ng-template ng-option-tmp let-item="item">
+                    {{item.nombre_ubigeo}}
+                </ng-template>
+            </ng-select>
+        </div>
+        <div class="col-md-3">
+            <label class="control-label"><b>* Parroquía</b></label>
+            <ng-select [(ngModel)]="parroquia" [clearable]="false" (change)="asignarUbicacion()" name="pk_ubigeo4" bindValue="pk_ubigeo" placeholder="Seleccione Parroquia" bindLabel="nombre_ubigeo" [items]="listaParroquia" appendTo="body" required DirectivaMayusculas>
+
+                <ng-template ng-option-tmp let-item="item">
+                    {{item.nombre_ubigeo}}
+                </ng-template>
+            </ng-select>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label"><b>* Dirección</b></label>
+            <input type="text" class="form-control" [(ngModel)]="personaTarget.direccion_person" name="direccion_person" placeholder="Ingrese Dirección" required DirectivaMayusculas>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-4">
+        <label class="control-label"><b>Nivel Formación</b></label>
+        <ng-select [(ngModel)]="personaTarget.pk_nivedu" name="pk_nivedu" bindValue="pk_nivedu" placeholder="Seleccione Formación" bindLabel="nombre_nivedu" [items]="listaNivelEducacion" appendTo="body" DirectivaMayusculas>
+
+            <ng-template ng-option-tmp let-item="item">
+                {{item.nombre_nivedu}}
+            </ng-template>
+        </ng-select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="control-label"><b>Profesión</b></label>
+        <ng-select [(ngModel)]="personaTarget.pk_prof" name="pk_prof" bindValue="pk_prof" placeholder="Seleccione Profesión" bindLabel="nombre_prof" [items]="listaProfesiones" appendTo="body" DirectivaMayusculas>
+
+            <ng-template ng-option-tmp let-item="item">
+                {{item.nombre_prof}}
+            </ng-template>
+        </ng-select>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label"><b>Ocupación</b></label>
+            <input type="text" class="form-control" [(ngModel)]="personaTarget.ocupacion_person" name="ocupacion_person" placeholder="Ingrese Ocupación" DirectivaMayusculas>
+        </div>
+    </div>
+</div>
+
+<code>
+    {{personaTarget | json}}
+</code>
+<!-- <hr>
+<code>
+    {{ pais }} - {{ provincia }} - {{ ciudad }} - {{ parroquia }}
+</code> -->

@@ -1,0 +1,85 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+
+                    <!-- Nav tabs -->
+                    <div *ngIf="cargando_tabla ">
+                        <app-loading1></app-loading1>
+                    </div>
+
+
+
+                    <div class="row animated fadeIn " *ngIf="!cargando_tabla ">
+                        <div class="col-12 ">
+                            <div class="card ">
+                                <div class="card-body ">
+                                    <div class="col-12 ">
+                                        <div class="row ">
+                                            <div class="col-md-12 ">
+                                                <div class="form-group row ">
+                                                    <h2>Lista</h2>
+                                                </div>
+                                                <div class="form-group row ">
+                                                    <input type="text " class="form-control col-md-9" placeholder="Buscar.... " name="search " [(ngModel)]="filter" DirectivaMayusculas>
+                                                    <div class="col-md-3">
+                                                        <button type="button" class="btn btn-info col-md-10" (click)="insertar()">
+                                            <i class="fa fa-plus"></i> Nuevo
+                                            </button>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row ">
+                                                    <div class="table-responsive pointer col-md-12 ">
+                                                        <table class="table color-bordered-table primary-bordered-table ">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Código</th>
+                                                                    <th>Nombre</th>
+                                                                    <th>Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let auxdiag of listaAuxiliarDiagnostico | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
+                                                                    <td>{{auxdiag.pk_auxdiag}}</td>
+                                                                    <td>{{auxdiag.nombre_auxdiag}}</td>
+                                                                    <td>
+                                                                        <div class="btn-group">
+                                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                          <i class="fa fa-file-o"></i>
+                                                                          </button>
+                                                                            <div class="dropdown-menu">
+                                                                                <a class="dropdown-item" (click)="editar(auxdiag)">Editar</a>
+                                                                                <a class="dropdown-item" (click)="eliminar(auxdiag)">Eliminar</a>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot></tfoot>
+                                                        </table>
+
+                                                        <br>
+
+                                                        <div class="col-12 ">
+                                                            <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

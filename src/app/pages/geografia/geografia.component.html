@@ -1,0 +1,189 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+                    <h4 class="card-title">Filtros</h4>
+                    <hr class="m-t-0 m-b-40">
+                    <div class="row p-t-20">
+                        <div class="col-md-10">
+                            <div class="form-group row">
+                                <label class="control-label col-md-2">Paises</label>
+                                <div class="col-md-8">
+
+                                    <ng-select [(ngModel)]="pais" (change)="cargarProvincias()" name="pk_ubigeo" bindValue="pk_ubigeo" placeholder="Seleccione País" bindLabel="nombre_ubigeo" [items]="listaNaciones" appendTo="body" required DirectivaMayusculas>
+
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nombre_ubigeo}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-building-o"></i>
+                                                </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" (click)="cambiarTipo('N')">Ver Lista</a>
+                                            <a class="dropdown-item" (click)="validarInsertar('N')">Nuevo</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label col-md-2">Provincias</label>
+                                <div class="col-md-8">
+
+                                    <ng-select [(ngModel)]="provincia" (change)="cargarCiudades()" name="pk_ubigeo2" bindValue="pk_ubigeo" placeholder="Seleccione Provincia" bindLabel="nombre_ubigeo" [items]="listaProvincias" appendTo="body" required DirectivaMayusculas>
+
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nombre_ubigeo}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-building-o"></i>
+                                                </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" (click)="cambiarTipo('P')">Ver Lista</a>
+                                            <a class="dropdown-item" (click)="validarInsertar('P')">Nuevo</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-2">Ciudades</label>
+                                <div class="col-md-8">
+
+                                    <ng-select [(ngModel)]="ciudad" (change)="cargarParroquias()" name="pk_ubigeo3" bindValue="pk_ubigeo" placeholder="Seleccione Ciudad" bindLabel="nombre_ubigeo" [items]="listaCiudades" appendTo="body" required DirectivaMayusculas>
+
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nombre_ubigeo}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-building-o"></i>
+                                                </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" (click)="cambiarTipo('C')">Ver Lista</a>
+                                            <a class="dropdown-item" (click)="validarInsertar('C')">Nuevo</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-2">Parroquias</label>
+                                <div class="col-md-8">
+
+                                    <ng-select [(ngModel)]="parroquia" name="pk_ubigeo4" bindValue="pk_ubigeo" placeholder="Seleccione Parroquia" bindLabel="nombre_ubigeo" [items]="listaParroquias" appendTo="body" required DirectivaMayusculas>
+
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nombre_ubigeo}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-building-o"></i>
+                                                    </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" (click)="cambiarTipo('PR')">Ver Lista</a>
+                                            <a class="dropdown-item" (click)="validarInsertar('PR')">Nuevo</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                    <!-- Nav tabs -->
+                    <div *ngIf="cargando_tabla ">
+                        <app-loading1></app-loading1>
+                    </div>
+
+
+
+                    <div class="row animated fadeIn " *ngIf="!cargando_tabla ">
+                        <div class="col-12 ">
+                            <div class="card ">
+                                <div class="card-body ">
+                                    <div class="col-12 ">
+                                        <div class="row ">
+                                            <div class="col-md-12 ">
+                                                <div class="form-group row ">
+                                                    <h2>{{titulo}}</h2>
+                                                </div>
+                                                <div class="form-group row ">
+                                                    <input type="text " class="form-control" placeholder="Buscar...." name="search " [(ngModel)]="filter" DirectivaMayusculas>
+
+                                                </div>
+
+
+                                                <div class="form-group row ">
+                                                    <div class="table-responsive pointer col-md-12 ">
+                                                        <table class="table color-bordered-table primary-bordered-table ">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Código</th>
+                                                                    <th>Nombre</th>
+                                                                    <th>Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let geografia of atributoListaGeografia | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
+                                                                    <td>{{geografia.pk_ubigeo}}</td>
+                                                                    <td>{{geografia.nombre_ubigeo}}</td>
+                                                                    <td>
+                                                                        <div class="btn-group">
+                                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                        <i class="fa fa-file-o"></i>
+                                                                                        </button>
+                                                                            <div class="dropdown-menu">
+                                                                                <a class="dropdown-item" (click)="editar(geografia)">Editar</a>
+                                                                                <a class="dropdown-item" (click)="eliminar(geografia)">Eliminar</a>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot></tfoot>
+                                                        </table>
+
+                                                        <br>
+
+                                                        <div class="col-12 ">
+                                                            <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
