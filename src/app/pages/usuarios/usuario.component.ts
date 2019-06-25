@@ -42,6 +42,7 @@ export class UsuarioComponent implements OnInit {
     pk_person:null,
     usuario_user:null,
     password_user:null,
+    password2:null,
     visible_user:true,
     audit_creacion:null,
     audit_modificacion:null
@@ -195,6 +196,7 @@ export class UsuarioComponent implements OnInit {
         pk_person:usu.pk_person,
         usuario_user:usu.usuario_user,
         password_user:usu.password_user,
+        password2:usu.password_user,
         visible_user:usu.visible_user,
         audit_creacion:usu.audit_creacion,
         audit_modificacion:usu.audit_modificacion
@@ -243,6 +245,7 @@ export class UsuarioComponent implements OnInit {
       pk_person:null,
       usuario_user:null,
       password_user:null,
+      password2:null,
       visible_user:true,
       audit_creacion:null,
       audit_modificacion:null
@@ -277,6 +280,7 @@ export interface usuarioModel{
   pk_person:number,
   usuario_user:string,
   password_user:string,
+  password2:string,
   visible_user:boolean,
   audit_creacion:any,
   audit_modificacion:any
