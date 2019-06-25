@@ -37,21 +37,20 @@ export class UsuariosComponent implements OnInit {
   cargarAll(){
     this._usuarioService.cargarDatos(this.desde)
         .subscribe((datos:any)=>{
-          this.listaUsuarios=Object.values(datos);
+          this.listaUsuarios=Object.values(datos.data);
           this.totalRegistros=datos.total_registros;
-          console.log(datos);
+          console.log(datos.data);
+          console.log(this.totalRegistros);
           this.cargando_tabla=false;
         })
   }
 
     //cada vez que se ejecuta esta funcion carga al web services
     cambiarDesde(valor:number){
-      let desde= this.desde+valor;
-      
+      let desde= this.desde+valor;      
       if(desde >= this.totalRegistros){
         return;
-      }
-  
+      }  
       if(desde < 0){
         return;
       }

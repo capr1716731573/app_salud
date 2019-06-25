@@ -26,7 +26,7 @@ export class UsuarioService {
           console.log(`Error - Service Obtener ${this.tabla}: `,resp.message,'error')
           
         }else{
-          dato=resp.data;
+          dato=resp;
         }
         return dato;
       }))

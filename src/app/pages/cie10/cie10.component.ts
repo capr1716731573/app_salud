@@ -39,7 +39,7 @@ export class Cie10Component implements OnInit {
   cargarAll(){
     this._cie10Service.cargarDatos(this.desde)
         .subscribe((datos:any)=>{
-          this.listaCIE10=Object.values(datos);
+          this.listaCIE10=Object.values(datos.data);
           this.totalRegistros=datos.total_registros;
           console.log(datos);
           this.cargando_tabla=false;
