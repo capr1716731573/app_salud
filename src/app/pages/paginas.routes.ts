@@ -26,6 +26,7 @@ import { Cie10Component } from './cie10/cie10.component';
 import { EmpresaComponent } from './empresa/empresa.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { UsuarioComponent } from './usuarios/usuario.component';
+import { MenuComponent } from './menu/menu.component';
 
 const pagesRoutes: Routes=[
     //RUTA DE PAGINAS O DE PAGINA PRINCIPAL QUE TIENE TODO HEADER , SIDEBAR , MAIN PAGE
@@ -45,7 +46,7 @@ const pagesRoutes: Routes=[
             { path:'tipo-identificacion', component: TipoIdentificacionComponent ,data:{ titulo:'Tipo de Indetificación'},canActivate:[VerificarTokenGuard]},
             { path:'profesion', component: ProfesionesComponent ,data:{ titulo:'Profesiones'},canActivate:[VerificarTokenGuard]},
             { path:'nivel-educacion', component: NivelEducacionComponent ,data:{ titulo:'Nivel Educación'},canActivate:[VerificarTokenGuard]},
-            { path:'perfil', component: PerfilComponent ,data:{ titulo:'Tipos de Perfiles'},canActivate:[VerificarTokenGuard]},
+            { path:'perfil', component: PerfilComponent ,data:{ titulo:'Gestión de Perfiles'},canActivate:[VerificarTokenGuard]},
             { path:'especialidad', component: EspecialidadComponent ,data:{ titulo:'Tipos de Especialidades'},canActivate:[VerificarTokenGuard]},
             { path:'tipo-organos-sistemas', component: TiposOrganosSistemasComponent ,data:{ titulo:'Tipos de Órganos y Sistemas'},canActivate:[VerificarTokenGuard]},
             { path:'tipo-examen', component: TiposExamenComponent ,data:{ titulo:'Tipos de Examén'},canActivate:[VerificarTokenGuard]},
@@ -60,6 +61,7 @@ const pagesRoutes: Routes=[
             { path:'empresa', component: EmpresaComponent ,data:{ titulo:'Empresas'},canActivate:[VerificarTokenGuard]},
             { path:'usuarios', component: UsuariosComponent ,data:{ titulo:'Usuarios'},canActivate:[VerificarTokenGuard]},
             { path:'usuario/:id', component: UsuarioComponent ,data:{ titulo:'Registro Usuario'},canActivate:[VerificarTokenGuard]},
+            { path:'menu', component: MenuComponent ,data:{ titulo:'Menú del Sistema'},canActivate:[VerificarTokenGuard]},
             { path:'', redirectTo:'/dashboard', pathMatch:'full' }
         ] }
 ];

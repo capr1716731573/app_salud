@@ -83,6 +83,10 @@ Global Styles
     outline: none;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 body {
     background: #fff;
     font-family: "Montserrat", sans-serif;
@@ -8053,4 +8057,30 @@ File: scss
         margin-top: 10px;
         overflow: hidden;
     }
+}
+
+
+/*******************
+list and media
+******************/
+
+.list-group a.list-group-item:hover {
+    background: #e9edf2;
+}
+
+.list-group-item.active,
+.list-group .list-group-item.active:hover {
+    background: #398bf7;
+    border-color: #398bf7;
+}
+
+.list-group-item.disabled {
+    color: #99abb4;
+    background: #e9edf2;
+}
+
+.media {
+    border: 1px solid rgba(120, 130, 140, 0.13);
+    margin-bottom: 10px;
+    padding: 15px;
 }

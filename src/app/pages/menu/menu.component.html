@@ -1,0 +1,155 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+
+                    <div class="row animated fadeIn ">
+                        <div class="col-12 ">
+                            <div class="card ">
+                                <div class="card-body ">
+                                    <div class="col-12 ">
+                                        <div class="row ">
+                                            <!-- CABECERAS -->
+                                            <div class="col-md-5">
+
+                                                <h3>Cabeceras</h3>
+                                                <div *ngIf="cargando_tabla">
+                                                    <app-loading1></app-loading1>
+                                                </div>
+                                                <div class="input-group">
+                                                    <input type="text " class="form-control" [(ngModel)]="filterc" placeholder="Buscar.... " name="search ">
+                                                    <div class="input-group-addon hover-cursor">
+                                                        <i class="pointer fa fa-plus-circle fa-2x" (click)="cargarMenusCabeceras('cab','I')" data-toggle="modal" data-target="#modalForm"></i>
+                                                    </div>
+                                                </div>
+                                                <div style="margin:5px 0px">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item" [class.active]="class_active === i" *ngFor="let item of listaMenu | filter:filterc; let i = index;">
+                                                            <a href="javascript:void(0)" [class.text-white]="class_active === i" (click)="seleccionCabecera(item,i)">{{ item.nombre_menu }}</a>
+
+                                                            <span class="hover-cursor text-info pull-right pointer" style="margin: 5px" [class.text-info]="class_active != i" [class.text-white]="class_active === i" (click)="cargarMenusCabeceras('cab','U',item,i)" data-toggle="modal" data-target="#modalForm">
+                                                                <i class="fa fa-pencil fa-lg"></i>
+                                                            </span>
+
+
+
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                            <!-- ITEMS MENU -->
+                                            <div class="col-md-5" *ngIf="menuTarget.pk_padre">
+
+                                                <h3>Items</h3>
+                                                <div *ngIf="cargando_items">
+                                                    <app-loading1></app-loading1>
+                                                </div>
+
+                                                <div *ngIf="!cargando_items ">
+                                                    <div class="input-group">
+                                                        <input type="text " class="form-control" [(ngModel)]="filter" placeholder="Buscar.... " name="search ">
+                                                        <div class="input-group-addon hover-cursor">
+                                                            <i class="pointer fa fa-plus-circle fa-2x" (click)="cargarMenusCabeceras('item','I')" data-toggle="modal" data-target="#modalForm"></i>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- PRUEBA -->
+
+
+                                                    <div style="margin:5px 0px">
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item" *ngFor="let item of listaItems | filter:filter;">
+                                                                <input type="checkbox" name="item_{{item.pk_menu}}" [id]="item.pk_menu" [(ngModel)]="item.activo_menu" class="chk-col-green" [attr.checked]="item.activo_menu ? 'checked' : null" (click)="actualizarItemActivo(item)" />
+                                                                <label [for]="item.pk_menu">{{ item.nombre_menu }}</label>
+
+                                                                <!-- <span class="hover-cursor text-danger pull-right pointer" style="margin: 5px" (click)="onDelete(item.$key)">
+                                                                        <i class="fa fa-trash-o fa-lg"></i>
+                                                                      </span> -->
+                                                                <span class="hover-cursor text-info pull-right pointer" style="margin: 5px" data-toggle="modal" data-target="#modalForm" (click)="cargarMenusCabeceras('item','U',item)">
+                                                                          <i class="fa fa-pencil fa-lg"></i>
+                                                                      </span>
+
+
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade " id="modalForm" data-backdrop="static " tabindex="-1 " role="dialog " aria-labelledby="modalFormLabel1 ">
+    <div class="modal-dialog " role="document ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h4 class="modal-title " id="modalFormLabel1 ">Registro Menú</h4>
+                <button type="button " class="close " data-dismiss="modal" aria-label="Close "><span aria-hidden="true ">&times;</span></button>
+            </div>
+            <div class="modal-body ">
+                <div *ngIf="cargando_accion ">
+                    <app-loading2></app-loading2>
+                </div>
+                <div *ngIf="!cargando_accion">
+                    <form #formularioMenu="ngForm" ngNativeValidate (ngSubmit)="guardar()">
+                        <div class="form-group" *ngIf="listaCabecerasModal.length != 0">
+                            <label class="control-label"><b>* Cabecera Menú</b></label>
+                            <ng-select [(ngModel)]="menuTarget.pk_padre" [clearable]="false" name="pk_padre" bindValue="pk_menu" placeholder="Seleccione.." bindLabel="nombre_menu" [items]="listaCabecerasModal" [required]="listaCabecerasModal.length != 0">
+                                <ng-template ng-option-tmp let-item="item">
+                                    {{item.nombre_menu}}
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                        <div class="form-group floating-labels m-b-40 ">
+                            <label for="txt1 " class="control-label "><b>Nombre:</b></label>
+                            <input type="text " class="form-control " [(ngModel)]="menuTarget.nombre_menu " name="nombre_menu " id="txt1 " placeholder="Ingrese Nombre" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="message-text" class="control-label"><b>Estado:</b></label>
+                            <div class="switch">
+                                <label>Inactivo 
+                                  <input type="checkbox" [(ngModel)]="menuTarget.activo_menu " name="activo_menu" checked>
+                                   <span class="lever switch-col-red"></span>Activo
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group floating-labels m-b-40" *ngIf="listaCabecerasModal.length != 0">
+                            <label for="txt1 " class="control-label "><b>Ruta:</b></label>
+                            <input type="text " class="form-control " [(ngModel)]="menuTarget.ruta_menu" name="ruta_menu " id="txt2" placeholder="Ingrese Ruta" [required]="listaCabecerasModal.length === 0">
+                        </div>
+                        <div class="form-group floating-labels m-b-40 ">
+                            <label for="txt1 " class="control-label "><b>Icono:</b></label>
+                            <input type="text " class="form-control " [(ngModel)]="menuTarget.icono_menu" name="icono_menu " id="txt3" placeholder="Ingrese Icono">
+                        </div>
+
+                        <div class="modal-footer ">
+                            <button type="button" [disabled]="cargando_accion " class="btn btn-danger " (click)="cancelar()">Cancelar</button>
+                            <button type="submit" [disabled]="cargando_accion || formularioMenu.invalid " class="btn btn-success "> Guardar</button>
+                        </div>
+                    </form>
+                    <code>
+                        {{menuTarget | json}}
+                      </code>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

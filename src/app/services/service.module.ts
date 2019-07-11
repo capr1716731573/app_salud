@@ -14,6 +14,8 @@ import { Cie10Service } from './cie10.service';
 import { EmpresaService } from './empresa.service';
 import { PersonaService } from './persona.service';
 import { UsuarioService } from './usuario.service';
+import { MenuService } from './menu.service';
+import { MenuPerfilService } from './menu-perfil.service';
 
 @NgModule({
   imports: [
@@ -35,7 +37,9 @@ import { UsuarioService } from './usuario.service';
     Cie10Service,
     EmpresaService,
     PersonaService,
-    UsuarioService
+    UsuarioService,
+    MenuService,
+    MenuPerfilService
   ],
   declarations: []
 })

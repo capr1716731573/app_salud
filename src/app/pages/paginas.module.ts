@@ -48,6 +48,7 @@ import { EmpresaComponent } from './empresa/empresa.component';
 import { PersonaComponent } from './persona/persona.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { UsuarioComponent } from './usuarios/usuario.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { UsuarioComponent } from './usuarios/usuario.component';
         EmpresaComponent,
         PersonaComponent,
         UsuariosComponent,
-        UsuarioComponent
+        UsuarioComponent,
+        MenuComponent
     ],
     exports:[
         DashboardComponent,
