@@ -39,6 +39,7 @@ export class LoginService {
             
           }else{
             this._settingsService.limpiarTokenUser();
+            this._settingsService.limpiarMenuLocalstorage();
             this._settingsService.crearTokenUsuarioLocalStorage(resp.token,resp.usuario);
             dato=resp;
            
@@ -63,6 +64,7 @@ export class LoginService {
 
     logout(){
       this._settingsService.limpiarTokenUser();
+      this._settingsService.limpiarMenuLocalstorage();
       this.router.navigate(['/login']);
     }
   

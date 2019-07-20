@@ -1,34 +1,27 @@
 import { Injectable } from '@angular/core';
+import { MenuPerfilService } from '../menu-perfil.service';
+import { SettingsService } from '../settings/settings.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map,catchError } from 'rxjs/operators';
+
+import swal from 'sweetalert2';
 
 @Injectable()
 export class SidebarService {
-  //arreglo de menu
-  menu:any=[
-  {
-    titulo:'Principal',
-    icono:'mdi mdi-gauge',
 
-  submenu:[
-    {
-      titulo:'Dashboard',url:'/dashboard'
-    },
-    {
-      titulo:'ProgressBar',url:'/progress'
-    },
-    {
-      titulo:'Gráficas',url:'/graficas1'
-    },
-    {
-      titulo:'Promesas',url:'/promesas'
-    },
-    {
-      titulo:'Rsjx',url:'/rsjx'
-    }
-  ]
+  menu:any[]=[];
+  constructor(public _menuPerfilService:MenuPerfilService,
+              public _settingsService:SettingsService) {
+    
+   }
 
-  }
-
-  ];
-  constructor() { }
+   cargarMenu(){
+     this._menuPerfilService.cargarDatos(1)
+         .subscribe((menus_datos:any)=>{
+            this.menu=Object.values(menus_datos);
+            
+         });
+   }
 
 }

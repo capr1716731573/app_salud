@@ -12,8 +12,9 @@
                 <form #formularioUsuario="ngForm" ngNativeValidate (ngSubmit)="guardar()">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs customtab" role="tablist">
-                        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#generales" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Datos Generales</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#hitos" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Credenciales</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#generales" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Datos Generales</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#hitos" role="tab"><span class="hidden-sm-up"><i class="ti-layout-cta-right"></i></span> <span class="hidden-xs-down">Credenciales</span></a> </li>
+                        <li class="nav-item" *ngIf="id != 'nuevo'"> <a class="nav-link" data-toggle="tab" href="#perfiles" role="tab"><span class="hidden-sm-up"><i class="ti-view-list-alt"></i></span> <span class="hidden-xs-down">Perfiles</span></a> </li>
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
@@ -65,6 +66,93 @@
 
                             </div>
                         </div>
+                        <div class="tab-pane  p-20" id="perfiles" role="tabpanel" *ngIf="id != 'nuevo'">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="col-12">
+
+                                            <div class="row animated fadeIn ">
+                                                <div class="col-12 ">
+                                                    <div class="card ">
+                                                        <div class="card-body ">
+                                                            <div class="col-12 ">
+                                                                <div class="row ">
+                                                                    <!-- CABECERAS -->
+                                                                    <div class="col-md-5">
+
+                                                                        <h3>Perfiles Inactivos</h3>
+                                                                        <div *ngIf="cargando_perfiles_inactivos">
+                                                                            <app-loading1></app-loading1>
+                                                                        </div>
+                                                                        <div *ngIf="!cargando_perfiles_inactivos">
+                                                                            <div class="input-group">
+                                                                                <input type="text " class="form-control" [(ngModel)]="filterc" placeholder="Buscar.... " name="search ">
+
+                                                                            </div>
+                                                                            <div style="margin:5px 0px">
+                                                                                <ul class="list-group">
+                                                                                    <div *ngFor="let item of listaPerfiles | filter:filterc; let i = index;">
+                                                                                        <li class="list-group-item" *ngIf="!item.existe_perfil">
+                                                                                            <a>{{ item.nombre_perfil }}</a>
+
+                                                                                            <span *ngIf="!item.existe_perfil" class="hover-cursor text-danger pull-right" style="margin: 5px" (click)="addMenuPerfil(item)">
+                                                                                            <i class="fa fa-angle-double-right fa-lg pointer"></i>
+                                                                                            <i class="fa fa-angle-double-right fa-lg pointer"></i>
+                                                                                        </span>
+                                                                                        </li>
+                                                                                    </div>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <!-- ITEMS MENU -->
+                                                                    <div class="col-md-5">
+
+                                                                        <h3>Perfiles Activos</h3>
+                                                                        <!-- <div *ngIf="cargando_perfiles_activos">
+                                                                            <app-loading1></app-loading1>
+                                                                        </div> -->
+
+                                                                        <!--  <div *ngIf="!cargando_perfiles_activos"> -->
+                                                                        <div class="input-group">
+                                                                            <input type="text " class="form-control" [(ngModel)]="filter" placeholder="Buscar.... " name="search ">
+
+                                                                        </div>
+
+                                                                        <!-- PRUEBA -->
+
+                                                                        <div style="margin:5px 0px">
+                                                                            <ul class="list-group">
+                                                                                <div *ngFor="let item of listaPerfiles | filter:filterc; let i = index;">
+                                                                                    <li class="list-group-item" *ngIf="item.existe_perfil">
+
+                                                                                        <span *ngIf="item.existe_perfil" class="hover-cursor text-success" style="margin: 5px" (click)="deleteMenuPerfil(item)">
+                                                                                                    <i class="fa fa-angle-double-left fa-lg pointer"></i>
+                                                                                                    <i class="fa fa-angle-double-left fa-lg pointer"></i>
+                                                                                                </span>
+                                                                                        <a class="pull-right">{{ item.nombre_perfil }}</a>
+                                                                                    </li>
+                                                                                </div>
+                                                                            </ul>
+                                                                        </div>
+
+
+                                                                        <!--  </div> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body text-right p-b-0">
                         <div class="button-group">
@@ -77,10 +165,3 @@
         </div>
     </div>
 </div>
-
-<!-- <h2>AQUI ES EN USUARIOS</h2>
-<h3>***PERSONA***</h3>
-<code> {{persona | json}}</code>
-<br>
-<h3>***USUARIO***</h3>
-<code> {{usuario | json}}</code> -->

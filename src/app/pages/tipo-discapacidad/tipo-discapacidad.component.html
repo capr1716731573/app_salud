@@ -36,16 +36,16 @@
                                                         <table class="table color-bordered-table primary-bordered-table ">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Código</th>
-                                                                    <th>Nombre</th>
-                                                                    <th>Acción</th>
+                                                                    <th scope="col">Código</th>
+                                                                    <th scope="col">Nombre</th>
+                                                                    <th scope="col">Acción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr *ngFor="let item of lista | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
-                                                                    <td>{{item.pk_tipdiscap}}</td>
-                                                                    <td>{{item.nombre_tipdiscap}}</td>
-                                                                    <td>
+                                                                    <td scope="row" data-label="Código">{{item.pk_tipdiscap}}</td>
+                                                                    <td data-label="Nombre">{{item.nombre_tipdiscap}}</td>
+                                                                    <td data-label="Acción">
                                                                         <div class="btn-group">
                                                                             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                   <i class="fa fa-file-o"></i>

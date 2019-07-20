@@ -52,9 +52,12 @@
                             <li>
                                 <div class="dw-user-box">
                                     <div class="u-img"><img src="assets/images/doctor.png" alt="user"></div>
-                                    <div class="u-text">
-                                        <h4>{{ user.usuario_apellido_nombre }}</h4>
+                                    <div class="u-text text-center">
+
+                                        <p class="text-muted">{{ user.apellido_user }}</p>
+                                        <p class="text-muted">{{ user.nombre_user }}</p>
                                         <!-- <p class="text-muted">varun@gmail.com</p> -->
+                                        <br>
                                         <a (click)="logOut()" class="btn btn-rounded btn-danger btn-sm">Cerrar Sesión</a>
                                     </div>
                                 </div>

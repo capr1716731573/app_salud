@@ -5,6 +5,7 @@ import { SettingsService } from '../../services/settings/settings.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import swal from 'sweetalert2'
+import { PerfilUsuarioService } from '../../services/perfil_usuario.service';
 
 @Component({
   selector: 'app-usuario',
@@ -13,8 +14,19 @@ import swal from 'sweetalert2'
 })
 export class UsuarioComponent implements OnInit {
   titulo:string='Nuevo Usuario';
+  
   cargando_tabla:boolean=true;
+  cargando_perfiles_inactivos:boolean=true;
+  cargando_perfiles_activos:boolean=true;
   id:any='nuevo';
+  listaPerfiles:any[]=[];
+  //MENSAJES TOAST
+  toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+  });
   
   persona:personaModel={
     pk_person:null,
@@ -56,12 +68,14 @@ export class UsuarioComponent implements OnInit {
               public _personaService:PersonaService,
               public _settingsService:SettingsService,
               public router:Router,
-              public activatedRoute:ActivatedRoute,) {
+              public activatedRoute:ActivatedRoute,
+              public _perfilUsuarioService:PerfilUsuarioService) {
               this.activatedRoute.params.subscribe(params =>{
                 this.id=params['id'];//es el mismo nombre que las pagesRoutes
                 if(this.id != 'nuevo'){
                   this.cargarUsuario(this.id);
                   this.cambiarPassword=false;
+                  
                 }else{
                   this.cambiarPassword=true;
                   this.resetPersona();
@@ -73,6 +87,15 @@ export class UsuarioComponent implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  cargarPerfiles(){
+    this.cargando_perfiles_inactivos=true;
+    this._perfilUsuarioService.cargarDatos(this.usuario.pk_user)
+        .subscribe((perfiles:any)=>{
+          this.listaPerfiles=Object.values(perfiles);
+          this.cargando_perfiles_inactivos=false;
+        });
   }
 
   guardar(){
@@ -202,6 +225,7 @@ export class UsuarioComponent implements OnInit {
         audit_modificacion:usu.audit_modificacion
       }
       this.cargarPersona(this.usuario.pk_person);
+      this.cargarPerfiles();
     });
   }
 
@@ -250,6 +274,43 @@ export class UsuarioComponent implements OnInit {
       audit_creacion:null,
       audit_modificacion:null
     }
+  }
+
+  addMenuPerfil(item:any){
+    
+    let user=this._settingsService.getInfoUser();
+    let item_new:any={
+      pk_perfil:item.pk_perfil,
+      pk_user:this.usuario.pk_user,
+      audit_creacion:user,
+      audit_modificacion:user
+    }
+    console.error('ADD: '+JSON.stringify(item_new));
+    this._perfilUsuarioService.crud('I',item_new)
+        .subscribe((resp:any)=>{
+          this.toast.fire({
+            type: 'success',
+            title: 'Perfil agregado a usuario'
+          })
+          this.cargarPerfiles();
+    });
+  }
+
+  deleteMenuPerfil(item:any){
+    
+    let item_new:any={
+      pk_perfil:item.pk_perfil,
+      pk_user:this.usuario.pk_user
+    }
+    console.error('DELETE: '+JSON.stringify(item_new));
+    this._perfilUsuarioService.crud('D',item_new)
+        .subscribe((resp:any)=>{
+          this.toast.fire({
+            type: 'success',
+            title: 'Perfil removido de usuario'
+          })
+          this.cargarPerfiles();
+    });
   }
 
 }

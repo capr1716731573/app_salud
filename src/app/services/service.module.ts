@@ -16,6 +16,7 @@ import { PersonaService } from './persona.service';
 import { UsuarioService } from './usuario.service';
 import { MenuService } from './menu.service';
 import { MenuPerfilService } from './menu-perfil.service';
+import { PerfilUsuarioService } from './perfil_usuario.service';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { MenuPerfilService } from './menu-perfil.service';
     PersonaService,
     UsuarioService,
     MenuService,
-    MenuPerfilService
+    MenuPerfilService,
+    PerfilUsuarioService
   ],
   declarations: []
 })

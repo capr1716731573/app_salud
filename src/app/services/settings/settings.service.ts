@@ -2,21 +2,26 @@ import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from "@angular/common";
 import * as jwt_decode from "jwt-decode";
 import * as moment from 'moment';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable()
 export class SettingsService {
   myToken:any;
   myUser:any;
+  myMenu:any;
+  claveCryptoJS:string='appsalud';
   ajustes: ajustes={
     temaURl:'assets/css/colors/default.css',
     tema:'default'
   }
 
-  constructor( @Inject(DOCUMENT) private _document ) {
+  constructor( @Inject(DOCUMENT) private _document) {
     //cargamos ajustes del local storage o por defecto
     //para que funcione en toda la app, tengo que declarar en el app.component.ts
     this.cargarAjustes();
     this.cargarValoresLocalStorage();
+   
+    console.error("******  ME EJECUTE EN SETTINGS SERVICE *********");
    }
 
    crearTokenUsuarioLocalStorage(token:any,user:any){
@@ -32,6 +37,15 @@ export class SettingsService {
    cargarValoresLocalStorage(){
      this.myToken=localStorage.getItem('tokenSalud');
      this.myUser=this.getDecodedAccessToken(localStorage.getItem('tokenSalud'));
+     if(localStorage.getItem('menuSalud')){
+      var bytes  = CryptoJS.AES.decrypt(localStorage.getItem('menuSalud').toString(), this.claveCryptoJS);
+      var textoDesencriptado = bytes.toString(CryptoJS.enc.Utf8);
+      //console.log("textoEncriptado :"+textoDesencriptado);
+      this.myMenu=JSON.parse(textoDesencriptado);
+      //this.myMenu=JSON.parse(localStorage.getItem('menuSalud'));
+      this.myMenu=this.myMenu[0].mensaje;
+     }
+     
    }
 
    //validar si token ya expiro
@@ -56,7 +70,15 @@ export class SettingsService {
       localStorage.removeItem('tokenSalud');
       this.myToken={};
       this.myUser={};
+      
     }
+  }
+
+  limpiarMenuLocalstorage(){
+    if(localStorage.getItem('menuSalud')){
+      localStorage.removeItem('menuSalud')
+    }
+    this.myMenu=[];
   }
 
   getDecodedAccessToken(token: string): any {
@@ -89,10 +111,13 @@ export class SettingsService {
   //get Info Usuario para auditoria
   getInfoUser(){
     let infoUser=this.getDecodedAccessToken(this.myToken);
+    console.log('GETINFOUSER : '+JSON.stringify(this.getDecodedAccessToken(this.myToken)));
     return {
       pk_user:infoUser.usuario.pk_user,
       pk_person:infoUser.usuario.pk_person,
       usuario_user:infoUser.usuario.usuario_user,
+      nombre_user:infoUser.usuario.nombres_person,
+      apellido_user:infoUser.usuario.apellidos_person,
       fecha:moment().format('YYYY-MM-DD'),
       hora:moment().format('h:mm:ss a')
       
@@ -110,6 +135,26 @@ export class SettingsService {
     //guardamos el tema en el localstorage
     this.guardarAjustes();
    
+  }
+
+  crearMenuLocalStorage(menu){
+    if(localStorage.getItem('menuSalud')){
+      localStorage.removeItem('menuSalud');
+    }
+    //localStorage.setItem('menuSalud',JSON.stringify(menu));
+    localStorage.setItem('menuSalud',CryptoJS.AES.encrypt(JSON.stringify(menu), this.claveCryptoJS));
+
+    this.myMenu=menu;
+    this.myMenu=this.myMenu[0].mensaje;
+    
+
+    /* //cryptoJs
+    var textoEncriptado = CryptoJS.AES.encrypt(JSON.stringify(menu), this.claveCryptoJS);
+
+    // Desencriptamos
+    var bytes  = CryptoJS.AES.decrypt(textoEncriptado.toString(), this.claveCryptoJS);
+    var textoDesencriptado = bytes.toString(CryptoJS.enc.Utf8);
+    console.log("textoEncriptado :"+textoDesencriptado); */
   }
 
 }

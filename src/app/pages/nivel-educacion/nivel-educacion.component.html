@@ -36,16 +36,16 @@
                                                         <table class="table color-bordered-table primary-bordered-table ">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Código</th>
-                                                                    <th>Nombre</th>
-                                                                    <th>Acción</th>
+                                                                    <th scope="col">Código</th>
+                                                                    <th scope="col">Nombre</th>
+                                                                    <th scope="col">Acción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr *ngFor="let nivedu of listaNivelEducacion | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
-                                                                    <td>{{nivedu.pk_nivedu}}</td>
-                                                                    <td>{{nivedu.nombre_nivedu}}</td>
-                                                                    <td>
+                                                                    <td scope="row" data-label="Código">{{nivedu.pk_nivedu}}</td>
+                                                                    <td data-label="Nombre">{{nivedu.nombre_nivedu}}</td>
+                                                                    <td data-label="Acción">
                                                                         <div class="btn-group">
                                                                             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                                   <i class="fa fa-file-o"></i>
