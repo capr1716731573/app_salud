@@ -17,6 +17,7 @@ import { UsuarioService } from './usuario.service';
 import { MenuService } from './menu.service';
 import { MenuPerfilService } from './menu-perfil.service';
 import { PerfilUsuarioService } from './perfil_usuario.service';
+import { EspecialidadUserService } from './especialidad-user.service';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { PerfilUsuarioService } from './perfil_usuario.service';
     UsuarioService,
     MenuService,
     MenuPerfilService,
-    PerfilUsuarioService
+    PerfilUsuarioService,
+    EspecialidadUserService
   ],
   declarations: []
 })

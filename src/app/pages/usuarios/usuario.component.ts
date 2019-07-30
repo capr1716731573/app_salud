@@ -6,6 +6,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import swal from 'sweetalert2'
 import { PerfilUsuarioService } from '../../services/perfil_usuario.service';
+import { EspecialidadUserService } from '../../services/especialidad-user.service';
+import { EspecialidadService } from '../../services/especialidad.service';
+import { EmpresaUserService } from '../../services/empresa-user.service';
+import { EmpresaService } from '../../services/empresa.service';
+declare var $:any;
 
 @Component({
   selector: 'app-usuario',
@@ -14,12 +19,20 @@ import { PerfilUsuarioService } from '../../services/perfil_usuario.service';
 })
 export class UsuarioComponent implements OnInit {
   titulo:string='Nuevo Usuario';
+  accionModalEspecialidad:string='I';
+  accionModalEmpresa:string='I';
   
   cargando_tabla:boolean=true;
   cargando_perfiles_inactivos:boolean=true;
   cargando_perfiles_activos:boolean=true;
+  cargando_espec_user:boolean=true;
+  cargando_modal:boolean=true;
   id:any='nuevo';
   listaPerfiles:any[]=[];
+  listaEspecialidadUsuarios:any[]=[];
+  listaEspecialidad:any[]=[];
+  listaEmpresaUsuarios:any[]=[];
+  listaEmpresa:any[]=[];
   //MENSAJES TOAST
   toast = swal.mixin({
     toast: true,
@@ -27,6 +40,7 @@ export class UsuarioComponent implements OnInit {
     showConfirmButton: false,
     timer: 3000
   });
+
   
   persona:personaModel={
     pk_person:null,
@@ -59,7 +73,21 @@ export class UsuarioComponent implements OnInit {
     audit_creacion:null,
     audit_modificacion:null
   }
+
+  especialidadMedicoTarget:especialidadMedicoModel={
+    pk_user:null,
+    pk_espec:null,
+    codmsp_espcmed:null,
+    senecyt_espcmed:null,
+    audit_creacion:null,
+    audit_modificacion:null
+  }
   
+  empresaMedicoTarget:empresaMedicoModel={
+    pk_user:null,
+    pk_empre:null
+  }
+
   cambiarPassword:boolean=true;
   password1:string=null;
   password2:string=null;
@@ -69,7 +97,11 @@ export class UsuarioComponent implements OnInit {
               public _settingsService:SettingsService,
               public router:Router,
               public activatedRoute:ActivatedRoute,
-              public _perfilUsuarioService:PerfilUsuarioService) {
+              public _perfilUsuarioService:PerfilUsuarioService,
+              public _especialidadUsuarios:EspecialidadUserService,
+              public _especialidadService:EspecialidadService,
+              public _empresaUsuarios:EmpresaUserService,
+              public _empresaService:EmpresaService) {
               this.activatedRoute.params.subscribe(params =>{
                 this.id=params['id'];//es el mismo nombre que las pagesRoutes
                 if(this.id != 'nuevo'){
@@ -95,6 +127,37 @@ export class UsuarioComponent implements OnInit {
         .subscribe((perfiles:any)=>{
           this.listaPerfiles=Object.values(perfiles);
           this.cargando_perfiles_inactivos=false;
+        });
+  }
+
+cargarEspecialidades(){
+    this._especialidadService.cargarDatos()
+        .subscribe((datos:any)=>{
+        this.listaEspecialidad=Object.values(datos);
+        });
+    }
+    
+    cargarEmpresas(){
+    this._empresaService.cargarDatos()
+        .subscribe((datos:any)=>{
+            this.listaEmpresa=Object.values(datos);
+        });
+    }
+  cargarListaEmpresaUsuarios(pk_user:number){
+    this.cargando_espec_user=true;
+    this._empresaUsuarios.cargarDatos(pk_user)
+        .subscribe((datos:any)=>{
+            this.listaEmpresaUsuarios=Object.values(datos);
+            this.cargando_espec_user=false;
+        });
+  }
+
+  cargarListaEspecialidadUsuarios(pk_user:number){
+    this.cargando_espec_user=true;
+    this._especialidadUsuarios.cargarDatos(pk_user)
+        .subscribe((datos:any)=>{
+          this.listaEspecialidadUsuarios=Object.values(datos);
+          this.cargando_espec_user=false;
         });
   }
 
@@ -135,13 +198,13 @@ export class UsuarioComponent implements OnInit {
                             accionPersona='U';
                             this.usuario.audit_creacion=this._settingsService.getInfoUser();
                             this.persona.audit_modificacion=this._settingsService.getInfoUser();
-                            console.log('LA PERSONA SI EXISTE');  
+                            //console.log('LA PERSONA SI EXISTE');  
                           }else {
                             accionUsuario='I';
                             accionPersona='I';
                             this.usuario.audit_creacion=this._settingsService.getInfoUser();
                             this.persona.audit_creacion=this._settingsService.getInfoUser();
-                            console.log('LA PERSONA NO EXISTE');  
+                            //console.log('LA PERSONA NO EXISTE');  
                           }
                           this.accionGuardar(accionPersona,accionUsuario);
                         });
@@ -159,7 +222,6 @@ export class UsuarioComponent implements OnInit {
       }
     })
   }
-
 
   accionGuardar(accionPersona,accionUsuario){
    
@@ -226,6 +288,10 @@ export class UsuarioComponent implements OnInit {
       }
       this.cargarPersona(this.usuario.pk_person);
       this.cargarPerfiles();
+      this.cargarListaEspecialidadUsuarios(this.usuario.pk_user);
+      this.cargarEspecialidades();
+      this.cargarListaEmpresaUsuarios(this.usuario.pk_user);
+      this.cargarEmpresas();
     });
   }
 
@@ -238,7 +304,6 @@ export class UsuarioComponent implements OnInit {
           
         });
   }
-
   
   resetPersona(){
    this.persona={
@@ -313,6 +378,168 @@ export class UsuarioComponent implements OnInit {
     });
   }
 
+  //FUNCIONES DEL MODAL ESPECIALIDADES
+  cancelarModalEspecilidades(){
+    this.cargarListaEspecialidadUsuarios(this.usuario.pk_user);
+    $('#modalEspeMed').modal('hide');
+  }
+
+  guardarModalEspecilidades(){
+    let accion;
+    if(this.accionModalEspecialidad === 'I'){ 
+      accion='Ingresado';
+      this.especialidadMedicoTarget.audit_creacion=this._settingsService.getInfoUser();
+    }else{ 
+      this.especialidadMedicoTarget.audit_modificacion=this._settingsService.getInfoUser();
+      accion='Actualizado';
+    }
+    this.especialidadMedicoTarget.pk_user=this.usuario.pk_user;
+    this._especialidadUsuarios.crud(this.accionModalEspecialidad,this.especialidadMedicoTarget)
+    .subscribe((resp:any) => {
+     this.cargarListaEspecialidadUsuarios(this.usuario.pk_user);
+      //swal.fire(`Registro ${accion}!!`)
+      swal.fire({
+        //position: 'top',
+        type: 'success',
+        title: `Registro ${accion}!!`,
+        showConfirmButton: false,
+        timer: 1500
+      })
+      $('#modalEspeMed').modal('hide');
+    });
+
+  }
+
+  insertarModalEspecilidades(){
+    this.cargando_modal=true;
+    this.resetTargetModalEspecilidades();
+    this.accionModalEspecialidad='I';
+    this.cargando_modal=false;
+   
+  }
+
+  resetTargetModalEspecilidades(){
+    this.especialidadMedicoTarget={
+        pk_user:this.usuario.pk_user,
+        pk_espec:null,
+        codmsp_espcmed:null,
+        senecyt_espcmed:null,
+        audit_creacion:this._settingsService.getInfoUser(),
+        audit_modificacion:null
+      }
+  }
+
+  eliminarTargetModalEspecilidades(row:any){
+    swal.fire({
+      title: 'Confirmación',
+      text: "Desea eliminar este registro?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText:'Cancelar',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.value) {
+        this._especialidadUsuarios.crud('D',row)
+            .subscribe((resp:any) => {
+              this.cargarListaEspecialidadUsuarios(this.usuario.pk_user)
+              swal.fire({
+                //position: 'top',
+                type: 'success',
+                title: `Registro Eliminado!!`,
+                showConfirmButton: false,
+                timer: 1500
+              })
+            });
+      }
+    })
+    
+  }
+
+  editarTargetModalEspecilidades(row:any){
+    this.cargando_modal=true;
+    this.especialidadMedicoTarget=row;
+    this.accionModalEspecialidad='U';
+    this.cargando_modal=false;
+  }
+
+  //FUNCIONES DEL MODAL EMPRESAS
+  cancelarModalEmpresas(){
+    this.cargarListaEmpresaUsuarios(this.usuario.pk_user);
+    $('#modalEmpreMed').modal('hide');
+  }
+
+  guardarModalEmpresas(){
+    let accion;
+    if(this.accionModalEmpresa === 'I'){ 
+      accion='Ingresado';
+    }else{ 
+      accion='Actualizado';
+    }
+    this.empresaMedicoTarget.pk_user=this.usuario.pk_user;
+    this._empresaUsuarios.crud(this.accionModalEspecialidad,this.empresaMedicoTarget)
+        .subscribe((resp:any) => {
+             this.cargarListaEmpresaUsuarios(this.usuario.pk_user);
+              swal.fire({
+                    type: 'success',
+                    title: `Registro ${accion}!!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+              $('#modalEmpreMed').modal('hide');
+        });
+
+  }
+
+  insertarModalEmpresas(){
+    this.cargando_modal=true;
+    this.resetTargetModalEmpresas();
+    this.accionModalEmpresa='I';
+    this.cargando_modal=false;
+   
+  }
+
+  resetTargetModalEmpresas(){
+    this.empresaMedicoTarget={
+        pk_user:this.usuario.pk_user,
+        pk_empre:null
+      }
+  }
+
+  eliminarTargetModalEmpresas(row:any){
+    swal.fire({
+      title: 'Confirmación',
+      text: "Desea eliminar este registro?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText:'Cancelar',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.value) {
+        this._empresaUsuarios.crud('D',row)
+            .subscribe((resp:any) => {
+              this.cargarListaEmpresaUsuarios(this.usuario.pk_user)
+              swal.fire({
+                type: 'success',
+                title: `Registro Eliminado!!`,
+                showConfirmButton: false,
+                timer: 1500
+              })
+            });
+      }
+    })
+    
+  }
+
+  editarTargetModalEmpresas(row:any){
+    this.cargando_modal=true;
+    this.empresaMedicoTarget=row;
+    this.accionModalEmpresa='U';
+    this.cargando_modal=false;
+  }
 }
 
 export interface personaModel{
@@ -345,4 +572,18 @@ export interface usuarioModel{
   visible_user:boolean,
   audit_creacion:any,
   audit_modificacion:any
+}
+
+export interface especialidadMedicoModel{
+    pk_user:number,
+    pk_espec:number,
+    codmsp_espcmed:string,
+    senecyt_espcmed:string,
+    audit_creacion:any,
+    audit_modificacion:any
+}
+
+export interface empresaMedicoModel{
+    pk_user:number,
+    pk_empre:number
 }

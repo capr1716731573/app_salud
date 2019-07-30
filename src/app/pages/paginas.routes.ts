@@ -25,8 +25,8 @@ import { TipoDiscapacidadComponent } from './tipo-discapacidad/tipo-discapacidad
 import { Cie10Component } from './cie10/cie10.component';
 import { EmpresaComponent } from './empresa/empresa.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { UsuarioComponent } from './usuarios/usuario.component';
 import { MenuComponent } from './menu/menu.component';
+import { UsuarioComponent } from './usuarios/usuario.component';
 
 const pagesRoutes: Routes=[
     //RUTA DE PAGINAS O DE PAGINA PRINCIPAL QUE TIENE TODO HEADER , SIDEBAR , MAIN PAGE

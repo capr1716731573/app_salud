@@ -53,7 +53,7 @@ export class SettingsService {
       if (localStorage.getItem('tokenSalud')){
       let decodedToken=this.getDecodedAccessToken(token);
       let expirationDate = decodedToken.exp; // get token expiration dateTime
-      console.log('EXPIRACION - '+expirationDate);
+      //console.log('EXPIRACION - '+expirationDate);
       if(Number(moment().format('X')) > Number(expirationDate)){
         return false;//token expiro
       }else{
