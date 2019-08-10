@@ -4,12 +4,12 @@
             <div class="card-body">
                 <div class="col-12">
 
-                    <div class="row animated fadeIn ">
-                        <div class="col-12 ">
-                            <div class="card ">
-                                <div class="card-body ">
-                                    <div class="col-12 ">
-                                        <div class="row ">
+                    <div class="row animated fadeIn">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="col-12">
+                                        <div class="row">
                                             <!-- CABECERAS -->
                                             <div class="col-md-5">
 
@@ -18,7 +18,7 @@
                                                     <app-loading1></app-loading1>
                                                 </div>
                                                 <div class="input-group">
-                                                    <input type="text " class="form-control" [(ngModel)]="filterc" placeholder="Buscar.... " name="search ">
+                                                    <input type="text" class="form-control" [(ngModel)]="filterc" placeholder="Buscar...." name="search">
                                                     <div class="input-group-addon hover-cursor">
                                                         <i class="pointer fa fa-plus-circle fa-2x" (click)="cargarMenusCabeceras('cab','I')" data-toggle="modal" data-target="#modalForm"></i>
                                                     </div>
@@ -47,9 +47,9 @@
                                                     <app-loading1></app-loading1>
                                                 </div>
 
-                                                <div *ngIf="!cargando_items ">
+                                                <div *ngIf="!cargando_items">
                                                     <div class="input-group">
-                                                        <input type="text " class="form-control" [(ngModel)]="filter" placeholder="Buscar.... " name="search ">
+                                                        <input type="text" class="form-control" [(ngModel)]="filter" placeholder="Buscar...." name="search">
                                                         <div class="input-group-addon hover-cursor">
                                                             <i class="pointer fa fa-plus-circle fa-2x" (click)="cargarMenusCabeceras('item','I')" data-toggle="modal" data-target="#modalForm"></i>
                                                         </div>
@@ -94,15 +94,15 @@
 
 
 
-<div class="modal fade " id="modalForm" data-backdrop="static " tabindex="-1 " role="dialog " aria-labelledby="modalFormLabel1 ">
-    <div class="modal-dialog " role="document ">
-        <div class="modal-content ">
-            <div class="modal-header ">
-                <h4 class="modal-title " id="modalFormLabel1 ">Registro Menú</h4>
-                <button type="button " class="close " data-dismiss="modal" aria-label="Close "><span aria-hidden="true ">&times;</span></button>
+<div class="modal fade" id="modalForm" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalFormLabel1">Registro Menú</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body ">
-                <div *ngIf="cargando_accion ">
+            <div class="modal-body">
+                <div *ngIf="cargando_accion">
                     <app-loading2></app-loading2>
                 </div>
                 <div *ngIf="!cargando_accion">
@@ -115,31 +115,31 @@
                                 </ng-template>
                             </ng-select>
                         </div>
-                        <div class="form-group floating-labels m-b-40 ">
-                            <label for="txt1 " class="control-label "><b>Nombre:</b></label>
-                            <input type="text " class="form-control " [(ngModel)]="menuTarget.nombre_menu " name="nombre_menu " id="txt1 " placeholder="Ingrese Nombre" required>
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label"><b>Nombre:</b></label>
+                            <input type="text" class="form-control" [(ngModel)]="menuTarget.nombre_menu" name="nombre_menu" id="txt1" placeholder="Ingrese Nombre" required>
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group">
                             <label for="message-text" class="control-label"><b>Estado:</b></label>
                             <div class="switch">
                                 <label>Inactivo 
-                                  <input type="checkbox" [(ngModel)]="menuTarget.activo_menu " name="activo_menu" checked>
+                                  <input type="checkbox" [(ngModel)]="menuTarget.activo_menu" name="activo_menu" checked>
                                    <span class="lever switch-col-red"></span>Activo
                                 </label>
                             </div>
                         </div>
                         <div class="form-group floating-labels m-b-40" *ngIf="listaCabecerasModal.length != 0">
-                            <label for="txt1 " class="control-label "><b>Ruta:</b></label>
-                            <input type="text " class="form-control " [(ngModel)]="menuTarget.ruta_menu" name="ruta_menu " id="txt2" placeholder="Ingrese Ruta" [required]="listaCabecerasModal.length === 0">
+                            <label for="txt1" class="control-label"><b>Ruta:</b></label>
+                            <input type="text" class="form-control" [(ngModel)]="menuTarget.ruta_menu" name="ruta_menu" id="txt2" placeholder="Ingrese Ruta" [required]="listaCabecerasModal.length === 0">
                         </div>
-                        <div class="form-group floating-labels m-b-40 ">
-                            <label for="txt1 " class="control-label "><b>Icono:</b></label>
-                            <input type="text " class="form-control " [(ngModel)]="menuTarget.icono_menu" name="icono_menu " id="txt3" placeholder="Ingrese Icono">
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label"><b>Icono:</b></label>
+                            <input type="text" class="form-control" [(ngModel)]="menuTarget.icono_menu" name="icono_menu" id="txt3" placeholder="Ingrese Icono">
                         </div>
 
-                        <div class="modal-footer ">
-                            <button type="button" [disabled]="cargando_accion " class="btn btn-danger " (click)="cancelar()">Cancelar</button>
-                            <button type="submit" [disabled]="cargando_accion || formularioMenu.invalid " class="btn btn-success "> Guardar</button>
+                        <div class="modal-footer">
+                            <button type="button" [disabled]="cargando_accion" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+                            <button type="submit" [disabled]="cargando_accion || formularioMenu.invalid" class="btn btn-success"> Guardar</button>
                         </div>
                     </form>
 

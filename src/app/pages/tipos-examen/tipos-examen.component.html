@@ -1,85 +1,189 @@
-<div class="row animated fadeIn">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="col-12">
+<div *ngIf="cargando_tabla">
+    <app-loading1></app-loading1>
+</div>
 
-                    <!-- Nav tabs -->
-                    <div *ngIf="cargando_tabla ">
-                        <app-loading1></app-loading1>
-                    </div>
-
-
-
-                    <div class="row animated fadeIn " *ngIf="!cargando_tabla ">
-                        <div class="col-12 ">
-                            <div class="card ">
-                                <div class="card-body ">
-                                    <div class="col-12 ">
-                                        <div class="row ">
-                                            <div class="col-md-12 ">
-                                                <div class="form-group row ">
-                                                    <h2>Lista</h2>
-                                                </div>
-                                                <div class="form-group row ">
-                                                    <input type="text " class="form-control col-md-9" placeholder="Buscar.... " name="search " [(ngModel)]="filter" DirectivaMayusculas>
-                                                    <div class="col-md-3">
-                                                        <button type="button" class="btn btn-info col-md-10" (click)="insertar()">
-                                              <i class="fa fa-plus"></i> Nuevo
-                                              </button>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="form-group row ">
-                                                    <div class="table-responsive pointer col-md-12 ">
-                                                        <table class="table color-bordered-table primary-bordered-table ">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">Código</th>
-                                                                    <th scope="col">Nombre</th>
-                                                                    <th scope="col">Acción</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr *ngFor="let tipexa of listaTipoExamen | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
-                                                                    <td scope="row" data-label="Código">{{tipexa.pk_tipexa}}</td>
-                                                                    <td data-label="Nombre">{{tipexa.nombre_tipexa}}</td>
-                                                                    <td data-label="Acción">
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <i class="fa fa-file-o"></i>
-                                                                            </button>
-                                                                            <div class="dropdown-menu">
-                                                                                <a class="dropdown-item" (click)="editar(tipexa)">Editar</a>
-                                                                                <a class="dropdown-item" (click)="eliminar(tipexa)">Eliminar</a>
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <tfoot></tfoot>
-                                                        </table>
-
-                                                        <br>
-
-                                                        <div class="col-12 ">
-                                                            <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+<div *ngIf="!cargando_tabla">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body p-b-0">
+                    <h4 class="card-title">{{titulo}}</h4>
+                </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs customtab" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tipo_examen" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Tipo de Exámen Físico</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#regiones" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Regiones/Exámen</span></a> </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane p-20 active" id="tipo_examen" role="tabpanel">
+                        <!-- BARRA DE BUSQUEDA -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control col-md-12" placeholder="Buscar...." name="search" [(ngModel)]="filter" DirectivaMayusculas>
+                                    <span class="input-group-btn pointer">
+                                                <button type="button" class="btn btn-info" (click)="insertar()">
+                                                    <i class="fa fa-plus"></i>   Nuevo
+                                                </button>
+                                        </span>
                                 </div>
                             </div>
                         </div>
+
+                        <br>
+
+                        <!-- TABLA DE TIPO EXAMEN -->
+                        <div class="form-group row">
+                            <div class="table-responsive pointer col-md-12">
+                                <table class="table color-bordered-table primary-bordered-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Código</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let tipexa of listaTipoExamen | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex">
+                                            <td scope="row" data-label="Código">{{tipexa.pk_tipexa}}</td>
+                                            <td data-label="Nombre">{{tipexa.nombre_tipexa}}</td>
+                                            <td data-label="Acción">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fa fa-file-o"></i>
+                                                            </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" (click)="editar(tipexa)">Editar</a>
+                                                        <a class="dropdown-item" (click)="eliminar(tipexa)">Eliminar</a>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+
+                                <br>
+
+                                <div class="col-12">
+                                    <pagination-controls class="pagination" (pageChange)="p=$event"></pagination-controls>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
+                    <div class="tab-pane p-20" id="regiones" role="tabpanel">
+                        <!-- SELECCION DE TIPO DE EXAMEN FISICO -->
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="control-label"><strong>Seleccione Tipo de Exámen Físico  </strong></label>
+                                    <ng-select (change)="cargarRegionesTipoExamen($event)" [clearable]="false" name="pk_tipexa" bindValue="pk_tipexa" placeholder="Seleccione.." bindLabel="nombre_tipexa" [items]="listaTipoExamen">
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nombre_tipexa}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-5">
+
+                                <label><strong>Regiones</strong></label>
+                                <div *ngIf="cargando_items && tipoExamenTarget.pk_tipexa">
+                                    <app-loading1></app-loading1>
+                                </div>
+
+                                <div *ngIf="!cargando_items && tipoExamenTarget.pk_tipexa">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" [(ngModel)]="filter" placeholder="Buscar...." name="search">
+                                        <div class="input-group-addon hover-cursor">
+                                            <i class="pointer fa fa-plus-circle fa-2x" data-toggle="modal" data-target="#modalRegionExamen" (click)="nuevo_region()"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- PRUEBA -->
+
+
+                                    <div style="margin:5px 0px">
+                                        <ul class="list-group">
+                                            <li class="list-group-item" *ngFor="let item of listaRegionExamen | filter:filter;">
+                                                <input type="checkbox" name="item_{{item.pk_regexa}}" [id]="item.pk_regexa" [(ngModel)]="item.activo_regexa" class="chk-col-green" [attr.checked]="item.activo_regexa ? 'checked' : null" (click)="actualizarItemActivo(item)" />
+                                                <label [for]="item.pk_regexa">{{ item.nombre_regexa }}</label>
+
+                                                <span class="hover-cursor text-danger pull-right pointer" style="margin: 5px" (click)="eliminarRegion(item)">
+                                                    <i class="fa fa-trash-o fa-lg"></i>
+                                                </span>
+                                                <span class="hover-cursor text-info pull-right pointer" style="margin: 5px" data-toggle="modal" data-target="#modalRegionExamen" (click)="editarRegion(item)">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </span>
+
+
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
 
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- MODAL REGION DE TIPO EXAMEN -->
+<div class="modal fade" id="modalRegionExamen" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalFormLabel1">Registro - Región Exámen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="cargando_accion">
+                    <app-loading2></app-loading2>
+                </div>
+                <div *ngIf="!cargando_accion">
+                    <form #formularioRegionExamen="ngForm" ngNativeValidate (ngSubmit)="guardarRegionExamen()">
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label"><b>Tipo de Exámen:</b></label>
+                            <h4>{{ tipoExamenTarget.nombre_tipexa }}</h4>
+                        </div>
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label"><b>Nombre Región:</b></label>
+                            <input type="text" class="form-control" [(ngModel)]="regionExamenTarget.nombre_regexa" name="nombre_regexa" id="txt2" placeholder="Ingrese Region" [required]="listaTipoExamen.length===0" DirectivaMayusculas>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message-text" class="control-label"><b>Estado:</b></label>
+                            <div class="switch">
+                                <label>Inactivo
+                                  <input type="checkbox" [(ngModel)]="regionExamenTarget.activo_regexa" name="activo_regexa" checked><span class="lever switch-col-red"></span>Activo</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" [disabled]="cargando_accion" class="btn btn-danger" (click)="cancelarRegionExamen()">Cancelar</button>
+                            <button type="submit" [disabled]="cargando_accion || formularioRegionExamen.invalid" class="btn btn-success"> Guardar</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>
