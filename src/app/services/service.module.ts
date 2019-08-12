@@ -18,6 +18,8 @@ import { MenuService } from './menu.service';
 import { MenuPerfilService } from './menu-perfil.service';
 import { PerfilUsuarioService } from './perfil_usuario.service';
 import { EspecialidadUserService } from './especialidad-user.service';
+import { TipoVacunasService } from './tipo-vacunas.service';
+import { ExamenAuxiliarDiagnosticoService } from './examen-auxiliar-diagnostico.service';
 
 @NgModule({
   imports: [
@@ -43,7 +45,10 @@ import { EspecialidadUserService } from './especialidad-user.service';
     MenuService,
     MenuPerfilService,
     PerfilUsuarioService,
-    EspecialidadUserService
+    EspecialidadUserService,
+    TipoExamenService,
+    TipoVacunasService,
+    ExamenAuxiliarDiagnosticoService
   ],
   declarations: []
 })

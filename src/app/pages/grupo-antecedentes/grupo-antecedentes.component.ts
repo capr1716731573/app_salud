@@ -2,7 +2,6 @@ import { Component, OnInit, ɵConsole } from '@angular/core';
 import { GrupoAntecedentesService } from '../../services/grupo-antecedentes.service';
 import { TipoAntecedentesService } from '../../services/tipo-antecedentes.service';
 import swal from 'sweetalert2';
-import { tipoExamenModel } from '../tipos-examen/tipos-examen.component';
 declare var $:any;
 
 @Component({

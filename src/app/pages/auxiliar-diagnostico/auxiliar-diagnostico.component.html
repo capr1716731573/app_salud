@@ -1,85 +1,189 @@
-<div class="row animated fadeIn">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="col-12">
+<div *ngIf="cargando_tabla">
+    <app-loading1></app-loading1>
+</div>
 
-                    <!-- Nav tabs -->
-                    <div *ngIf="cargando_tabla ">
-                        <app-loading1></app-loading1>
-                    </div>
-
-
-
-                    <div class="row animated fadeIn " *ngIf="!cargando_tabla ">
-                        <div class="col-12 ">
-                            <div class="card ">
-                                <div class="card-body ">
-                                    <div class="col-12 ">
-                                        <div class="row ">
-                                            <div class="col-md-12 ">
-                                                <div class="form-group row ">
-                                                    <h2>Lista</h2>
-                                                </div>
-                                                <div class="form-group row ">
-                                                    <input type="text " class="form-control col-md-9" placeholder="Buscar.... " name="search " [(ngModel)]="filter" DirectivaMayusculas>
-                                                    <div class="col-md-3">
-                                                        <button type="button" class="btn btn-info col-md-10" (click)="insertar()">
-                                            <i class="fa fa-plus"></i> Nuevo
-                                            </button>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="form-group row ">
-                                                    <div class="table-responsive pointer col-md-12 ">
-                                                        <table class="table color-bordered-table primary-bordered-table ">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">Código</th>
-                                                                    <th scope="col">Nombre</th>
-                                                                    <th scope="col">Acción</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr *ngFor="let auxdiag of listaAuxiliarDiagnostico | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
-                                                                    <td scope="row" data-label="Código">{{auxdiag.pk_auxdiag}}</td>
-                                                                    <td data-label="Nombre">{{auxdiag.nombre_auxdiag}}</td>
-                                                                    <td data-label="Acción">
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                          <i class="fa fa-file-o"></i>
-                                                                          </button>
-                                                                            <div class="dropdown-menu">
-                                                                                <a class="dropdown-item" (click)="editar(auxdiag)">Editar</a>
-                                                                                <a class="dropdown-item" (click)="eliminar(auxdiag)">Eliminar</a>
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <tfoot></tfoot>
-                                                        </table>
-
-                                                        <br>
-
-                                                        <div class="col-12 ">
-                                                            <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+<div *ngIf="!cargando_tabla">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body p-b-0">
+                    <h4 class="card-title">{{titulo}}</h4>
+                </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs customtab" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#auxiliar_diagnostico" role="tab"><span class="hidden-sm-up"><i class="ti-layout-grid3"></i></span> <span class="hidden-xs-down">Auxiliar Diagnostico</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#examen_aux_diag" role="tab"><span class="hidden-sm-up"><i class="ti-pencil-alt"></i></span> <span class="hidden-xs-down">Tipo de Examen</span></a> </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane p-20 active" id="auxiliar_diagnostico" role="tabpanel">
+                        <!-- BARRA DE BUSQUEDA -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control col-md-12" placeholder="Buscar...." name="search" [(ngModel)]="filter" DirectivaMayusculas>
+                                    <span class="input-group-btn pointer">
+                                                    <button type="button" class="btn btn-info" (click)="insertar()">
+                                                        <i class="fa fa-plus"></i>   Nuevo
+                                                    </button>
+                                            </span>
                                 </div>
                             </div>
                         </div>
+
+                        <br>
+
+                        <!-- TABLA DE GRUPO ANTECEDENTES -->
+                        <div class="form-group row ">
+                            <div class="table-responsive pointer col-md-12 ">
+                                <table class="table color-bordered-table primary-bordered-table ">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Código</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let auxdiag of listaAuxiliarDiagnostico | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
+                                            <td scope="row" data-label="Código">{{auxdiag.pk_auxdiag}}</td>
+                                            <td data-label="Nombre">{{auxdiag.nombre_auxdiag}}</td>
+                                            <td data-label="Acción">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                  <i class="fa fa-file-o"></i>
+                                                  </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" (click)="editar(auxdiag)">Editar</a>
+                                                        <a class="dropdown-item" (click)="eliminar(auxdiag)">Eliminar</a>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+
+                                <br>
+
+                                <div class="col-12 ">
+                                    <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
+                    <div class="tab-pane p-20" id="examen_aux_diag" role="tabpanel">
+                        <!-- SELECCION DE TIPO DE EXAMEN FISICO -->
+                        <div class="row">Exámenes
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="control-label"><strong>Seleccione Auxiliar Diagnostico  </strong></label>
+                                    <ng-select (change)="cargarExamenAuxDiag($event)" [clearable]="false" name="pk_auxdiag" bindValue="pk_auxdiag" placeholder="Seleccione.." bindLabel="nombre_auxdiag" [items]="listaAuxiliarDiagnostico">
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nombre_auxdiag}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-5">
+
+                                <label><strong>Tipo Exámenes</strong></label>
+                                <div *ngIf="cargando_items && auxiliarDiagnosticoTarget.pk_auxdiag">
+                                    <app-loading1></app-loading1>
+                                </div>
+
+                                <div *ngIf="!cargando_items && auxiliarDiagnosticoTarget.pk_auxdiag">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" [(ngModel)]="filter" placeholder="Buscar...." name="search">
+                                        <div class="input-group-addon hover-cursor">
+                                            <i class="pointer fa fa-plus-circle fa-2x" data-toggle="modal" data-target="#modalAuxiliarDiagnostico" (click)="nuevo_ExamenAuxiliarDiagnostico()"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- PRUEBA -->
+
+
+                                    <div style="margin:5px 0px">
+                                        <ul class="list-group">
+                                            <li class="list-group-item" *ngFor="let item of listaExamenAuxiliarDiagnostico | filter:filter;">
+                                                <input type="checkbox" name="item_{{item.pk_exa}}" [id]="item.pk_exa" [(ngModel)]="item.activo_exa" class="chk-col-green" [attr.checked]="item.activo_exa ? 'checked' : null" (click)="actualizarItemActivo(item)" />
+                                                <label [for]="item.pk_exa">{{ item.nombre_exa }}</label>
+
+                                                <span class="hover-cursor text-danger pull-right pointer" style="margin: 5px" (click)="eliminarExamenAuxiliarDiagnosticoTarget(item)">
+                                                        <i class="fa fa-trash-o fa-lg"></i>
+                                                    </span>
+                                                <span class="hover-cursor text-info pull-right pointer" style="margin: 5px" data-toggle="modal" data-target="#modalAuxiliarDiagnostico" (click)="editarExamenAuxiliarDiagnostico(item)">
+                                                        <i class="fa fa-pencil fa-lg"></i>
+                                                    </span>
+
+
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
 
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- MODAL REGION DE TIPO EXAMEN -->
+<div class="modal fade" id="modalAuxiliarDiagnostico" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalFormLabel1">Registro - Tipo Examen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="cargando_accion">
+                    <app-loading2></app-loading2>
+                </div>
+                <div *ngIf="!cargando_accion">
+                    <form #formularioExamenAuxiliarDiagnostico="ngForm" ngNativeValidate (ngSubmit)="guardarExamenAuxiliarDiagnostico()">
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label"><b>Auxiliar Diagnóstico:</b></label>
+                            <h4>{{ auxiliarDiagnosticoTarget.nombre_auxdiag }}</h4>
+                        </div>
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label"><b>Nombre Examen:</b></label>
+                            <input type="text" class="form-control" [(ngModel)]="tipoExamenAuxiliarDiagnosticoTarget.nombre_exa" name="nombre_exa" id="txt2" placeholder="Ingrese Tipo Examen" [required]="listaAuxiliarDiagnostico.length===0" DirectivaMayusculas>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message-text" class="control-label"><b>Estado:</b></label>
+                            <div class="switch">
+                                <label>Inactivo
+                                      <input type="checkbox" [(ngModel)]="tipoExamenAuxiliarDiagnosticoTarget.activo_exa" name="activo_exa" checked><span class="lever switch-col-red"></span>Activo</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" [disabled]="cargando_accion" class="btn btn-danger" (click)="cancelarExamenAuxiliarDiagnosticoTarget()">Cancelar</button>
+                            <button type="submit" [disabled]="cargando_accion || formularioExamenAuxiliarDiagnostico.invalid" class="btn btn-success"> Guardar</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>

@@ -10,15 +10,15 @@ import swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
-export class TipoAntecedentesService {
-  url:string=dominio_ws+'/tipo_antecedentes';
-  tabla:string='Tipo Antecedentes ';
+export class TipoVacunasService {
+  url:string=dominio_ws+'/tipo_vacuna';
+  tabla:string='Tipo Vcunas ';
 
   constructor(public http:HttpClient,
               public _settingsService:SettingsService) { }
 
-  cargarDatos(pk_grupant:number){
-    let url_ws=`${this.url}/${pk_grupant}`;
+  cargarDatos(pk_tipcap:number){
+    let url_ws=`${this.url}/${pk_tipcap}`;
     return this.http.get(url_ws)
     .pipe(map((resp:any) =>{
         let dato={};
@@ -43,8 +43,8 @@ export class TipoAntecedentesService {
   } 
 
   
-  cargarDatosID(pk_tipant:number,pk_grupant:number):Observable<any>{
-    let url_ws=`${this.url}/${pk_tipant}/${pk_grupant}`;
+  cargarDatosID(pk_tipvac:number,pk_tipcap:number):Observable<any>{
+    let url_ws=`${this.url}/${pk_tipvac}/${pk_tipcap}`;
     return this.http.get(url_ws)
     .pipe(map((resp:any) =>{
         let dato={};

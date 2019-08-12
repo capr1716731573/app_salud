@@ -1,85 +1,189 @@
-<div class="row animated fadeIn">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="col-12">
+<div *ngIf="cargando_tabla">
+    <app-loading1></app-loading1>
+</div>
 
-                    <!-- Nav tabs -->
-                    <div *ngIf="cargando_tabla ">
-                        <app-loading1></app-loading1>
-                    </div>
-
-
-
-                    <div class="row animated fadeIn " *ngIf="!cargando_tabla ">
-                        <div class="col-12 ">
-                            <div class="card ">
-                                <div class="card-body ">
-                                    <div class="col-12 ">
-                                        <div class="row ">
-                                            <div class="col-md-12 ">
-                                                <div class="form-group row ">
-                                                    <h2>Lista</h2>
-                                                </div>
-                                                <div class="form-group row ">
-                                                    <input type="text " class="form-control col-md-9" placeholder="Buscar.... " name="search " [(ngModel)]="filter" DirectivaMayusculas>
-                                                    <div class="col-md-3">
-                                                        <button type="button" class="btn btn-info col-md-10" (click)="insertar()">
-                                              <i class="fa fa-plus"></i> Nuevo
-                                              </button>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="form-group row ">
-                                                    <div class="table-responsive pointer col-md-12 ">
-                                                        <table class="table color-bordered-table primary-bordered-table ">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">Código</th>
-                                                                    <th scope="col">Nombre</th>
-                                                                    <th scope="col">Acción</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr *ngFor="let tipcap of listaCaptacionVacunas | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
-                                                                    <td scope="row" data-label="Código">{{tipcap.pk_tipcap}}</td>
-                                                                    <td data-label="Nombre">{{tipcap.nombre_tipcap}}</td>
-                                                                    <td data-label="Acción">
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <i class="fa fa-file-o"></i>
-                                                                            </button>
-                                                                            <div class="dropdown-menu">
-                                                                                <a class="dropdown-item" (click)="editar(tipcap)">Editar</a>
-                                                                                <a class="dropdown-item" (click)="eliminar(tipcap)">Eliminar</a>
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <tfoot></tfoot>
-                                                        </table>
-
-                                                        <br>
-
-                                                        <div class="col-12 ">
-                                                            <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+<div *ngIf="!cargando_tabla">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body p-b-0">
+                    <h4 class="card-title">{{titulo}}</h4>
+                </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs customtab" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#captacion_vacunas" role="tab"><span class="hidden-sm-up"><i class="ti-vimeo"></i></span> <span class="hidden-xs-down">Captación Vacunas</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tipo_vacunas" role="tab"><span class="hidden-sm-up"><i class="ti-layout-tab-min"></i></span> <span class="hidden-xs-down">Tipo Vacunas</span></a> </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane p-20 active" id="captacion_vacunas" role="tabpanel">
+                        <!-- BARRA DE BUSQUEDA -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control col-md-12" placeholder="Buscar...." name="search" [(ngModel)]="filter" DirectivaMayusculas>
+                                    <span class="input-group-btn pointer">
+                                                <button type="button" class="btn btn-info" (click)="insertar()">
+                                                    <i class="fa fa-plus"></i>   Nuevo
+                                                </button>
+                                        </span>
                                 </div>
                             </div>
                         </div>
+
+                        <br>
+
+                        <!-- TABLA DE CAPTACION VACUNAS -->
+                        <div class="form-group row ">
+                            <div class="table-responsive pointer col-md-12 ">
+                                <table class="table color-bordered-table primary-bordered-table ">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Código</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let tipcap of listaCaptacionVacunas | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
+                                            <td scope="row" data-label="Código">{{tipcap.pk_tipcap}}</td>
+                                            <td data-label="Nombre">{{tipcap.nombre_tipcap}}</td>
+                                            <td data-label="Acción">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-file-o"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" (click)="editar(tipcap)">Editar</a>
+                                                        <a class="dropdown-item" (click)="eliminar(tipcap)">Eliminar</a>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+
+                                <br>
+
+                                <div class="col-12 ">
+                                    <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
+                    <div class="tab-pane p-20" id="tipo_vacunas" role="tabpanel">
+                        <!-- SELECCION DE TIPO DE VACUNA -->
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="control-label"><strong>Seleccione Captación de Vacuna  </strong></label>
+                                    <ng-select (change)="cargarTipoVacunas($event)" [clearable]="false" name="pk_tipcap" bindValue="pk_tipcap" placeholder="Seleccione.." bindLabel="nombre_tipcap" [items]="listaCaptacionVacunas">
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nombre_tipcap}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-5">
+
+                                <label><strong>Tipos de Vacunas</strong></label>
+                                <div *ngIf="cargando_items && captacionVacunaTarget.pk_tipcap">
+                                    <app-loading1></app-loading1>
+                                </div>
+
+                                <div *ngIf="!cargando_items && captacionVacunaTarget.pk_tipcap">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" [(ngModel)]="filter" placeholder="Buscar...." name="search">
+                                        <div class="input-group-addon hover-cursor">
+                                            <i class="pointer fa fa-plus-circle fa-2x" data-toggle="modal" data-target="#modalTipoVacuna" (click)="nuevo_tipovacuna()"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- PRUEBA -->
+
+
+                                    <div style="margin:5px 0px">
+                                        <ul class="list-group">
+                                            <li class="list-group-item" *ngFor="let item of listaTipoVacuna | filter:filter;">
+                                                <input type="checkbox" name="item_{{item.pk_tipvac}}" [id]="item.pk_tipvac" [(ngModel)]="item.activo_tipvac" class="chk-col-green" [attr.checked]="item.activo_tipvac ? 'checked' : null" (click)="actualizarItemActivo(item)" />
+                                                <label [for]="item.pk_tipvac">{{ item.nombre_tipvac }}</label>
+
+                                                <span class="hover-cursor text-danger pull-right pointer" style="margin: 5px" (click)="eliminarTipoVacuna(item)">
+                                                    <i class="fa fa-trash-o fa-lg"></i>
+                                                </span>
+                                                <span class="hover-cursor text-info pull-right pointer" style="margin: 5px" data-toggle="modal" data-target="#modalTipoVacuna" (click)="editarTipoVacuna(item)">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </span>
+
+
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
 
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- MODAL REGISTRO DE TIPO VACUNA -->
+<div class="modal fade" id="modalTipoVacuna" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalFormLabel1">Registro - Tipo Vacuna</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="cargando_accion">
+                    <app-loading2></app-loading2>
+                </div>
+                <div *ngIf="!cargando_accion">
+                    <form #formularioTipoVacuna="ngForm" ngNativeValidate (ngSubmit)="guardarTipoVacuna()">
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label"><b>Captación Vacuna:</b></label>
+                            <h4>{{ captacionVacunaTarget.nombre_tipcap }}</h4>
+                        </div>
+                        <div class="form-group floating-labels m-b-40">
+                            <label for="txt1" class="control-label"><b>Nombre Tipo Vacuna:</b></label>
+                            <input type="text" class="form-control" [(ngModel)]="tipoVacunaTarget.nombre_tipvac" name="nombre_tipvac" id="txt2" placeholder="Ingrese Tipo Vacuna" [required]="listaCaptacionVacunas.length===0" DirectivaMayusculas>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message-text" class="control-label"><b>Estado:</b></label>
+                            <div class="switch">
+                                <label>Inactivo
+                                  <input type="checkbox" [(ngModel)]="tipoVacunaTarget.activo_tipvac" name="activo_tipvac" checked><span class="lever switch-col-red"></span>Activo</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" [disabled]="cargando_accion" class="btn btn-danger" (click)="cancelarTipoVacuna()">Cancelar</button>
+                            <button type="submit" [disabled]="cargando_accion || formularioTipoVacuna.invalid" class="btn btn-success"> Guardar</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>
