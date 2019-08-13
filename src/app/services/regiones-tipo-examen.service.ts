@@ -40,7 +40,32 @@ export class RegionesTipoExamenService {
         console.log(`Error no controlado - Service Obtener ${this.tabla}= `+ JSON.stringify(err));
         return Observable.throw(err);
       }))
-  } 
+  }
+  
+  cargarDatosActivos(pk_tipexa:number){
+    let url_ws=`${this.url}/activos/${pk_tipexa}`;
+    return this.http.get(url_ws)
+    .pipe(map((resp:any) =>{
+        let dato={};
+        if(resp.status === 'error'){
+          console.log(`Error - Service Obtener ${this.tabla}: `,resp.message,'error')
+          
+        }else{
+          dato=resp.data;
+        }
+        return dato;
+      }))
+      .pipe(catchError( err =>{
+        swal.fire(
+          `Error no controlado ${this.tabla}`,
+          'Revisar Detalle en consola',
+          'error'
+        )
+        
+        console.log(`Error no controlado - Service Obtener ${this.tabla}= `+ JSON.stringify(err));
+        return Observable.throw(err);
+      }))
+  }
 
  
   cargarDatosID(pk_regexa:number,pk_tipexa:number, ):Observable<any>{

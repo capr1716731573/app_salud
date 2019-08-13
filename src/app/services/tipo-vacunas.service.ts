@@ -42,6 +42,31 @@ export class TipoVacunasService {
       }))
   } 
 
+
+  cargarDatosActivos(pk_tipcap:number){
+    let url_ws=`${this.url}/activos/${pk_tipcap}`;
+    return this.http.get(url_ws)
+    .pipe(map((resp:any) =>{
+        let dato={};
+        if(resp.status === 'error'){
+          console.log(`Error - Service Obtener ${this.tabla}: `,resp.message,'error')
+          
+        }else{
+          dato=resp.data;
+        }
+        return dato;
+      }))
+      .pipe(catchError( err =>{
+        swal.fire(
+          `Error no controlado ${this.tabla}`,
+          'Revisar Detalle en consola',
+          'error'
+        )
+        
+        console.log(`Error no controlado - Service Obtener ${this.tabla}= `+ JSON.stringify(err));
+        return Observable.throw(err);
+      }))
+  }
   
   cargarDatosID(pk_tipvac:number,pk_tipcap:number):Observable<any>{
     let url_ws=`${this.url}/${pk_tipvac}/${pk_tipcap}`;
