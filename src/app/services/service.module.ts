@@ -20,6 +20,7 @@ import { PerfilUsuarioService } from './perfil_usuario.service';
 import { EspecialidadUserService } from './especialidad-user.service';
 import { TipoVacunasService } from './tipo-vacunas.service';
 import { ExamenAuxiliarDiagnosticoService } from './examen-auxiliar-diagnostico.service';
+import { AgendaService } from './agenda.service';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { ExamenAuxiliarDiagnosticoService } from './examen-auxiliar-diagnostico.
     EspecialidadUserService,
     TipoExamenService,
     TipoVacunasService,
-    ExamenAuxiliarDiagnosticoService
+    ExamenAuxiliarDiagnosticoService,
+    AgendaService
   ],
   declarations: []
 })

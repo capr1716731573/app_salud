@@ -27,6 +27,7 @@ import { EmpresaComponent } from './empresa/empresa.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { MenuComponent } from './menu/menu.component';
 import { UsuarioComponent } from './usuarios/usuario.component';
+import { AgendaComponent } from './agenda/agenda.component';
 
 const pagesRoutes: Routes=[
     //RUTA DE PAGINAS O DE PAGINA PRINCIPAL QUE TIENE TODO HEADER , SIDEBAR , MAIN PAGE
@@ -62,6 +63,7 @@ const pagesRoutes: Routes=[
             { path:'usuarios', component: UsuariosComponent ,data:{ titulo:'Usuarios'},canActivate:[VerificarTokenGuard]},
             { path:'usuario/:id', component: UsuarioComponent ,data:{ titulo:'Registro Usuario'},canActivate:[VerificarTokenGuard]},
             { path:'menu', component: MenuComponent ,data:{ titulo:'Menú del Sistema'},canActivate:[VerificarTokenGuard]},
+            { path:'agenda', component: AgendaComponent ,data:{ titulo:'Agenda'},canActivate:[VerificarTokenGuard]},
             { path:'', redirectTo:'/dashboard', pathMatch:'full' }
         ] }
 ];

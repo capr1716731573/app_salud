@@ -202,7 +202,7 @@
                                             <tr *ngFor="let espec_users of listaEspecialidadUsuarios | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
                                                 <td scope="row" data-label="Especialidad">{{espec_users.nombre_espec}}</td>
                                                 <td data-label="Código_MSP">{{espec_users.codmsp_espcmed}}</td>
-                                                <td data-label="Senecyt">{{espec_users.senecyt_espmed}}</td>
+                                                <td data-label="Senecyt">{{espec_users.senecyt_espcmed}}</td>
                                                 <td data-label="Acción">
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -342,7 +342,7 @@
                         </div>
                         <div class="form-group floating-labels m-b-40 ">
                             <label for="txt1 " class="control-label "><b>Senecyt:</b></label>
-                            <input type="text " class="form-control " [(ngModel)]="especialidadMedicoTarget.senecyt_espmed" name="senecyt_espmed " id="txt2" placeholder="Ingrese Senecyt">
+                            <input type="text " class="form-control " [(ngModel)]="especialidadMedicoTarget.senecyt_espcmed" name="senecyt_espcmed " id="txt2" placeholder="Ingrese Senecyt">
                         </div>
 
                         <div class="modal-footer ">

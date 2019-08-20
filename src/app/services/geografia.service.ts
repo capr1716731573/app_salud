@@ -40,6 +40,31 @@ export class GeografiaService {
       }))
   } 
 
+  cargarGeografiaTodos(){
+    let url_geografia=`${this.url}/`;
+    return this.http.get(url_geografia)
+    .pipe(map((resp:any) =>{
+        let dato={};
+        if(resp.status === 'error'){
+          console.log('Error - Service Obtener Geografia: ',resp.message,'error')
+          
+        }else{
+          dato=resp.data;
+        }
+        return dato;
+      }))
+      .pipe(catchError( err =>{
+        swal.fire(
+          'Error no controlado Geografia',
+          'Revisar Detalle en consola',
+          'error'
+        )
+        
+        console.log('Error no controlado - Service Obtener Geografia= '+ JSON.stringify(err));
+        return Observable.throw(err);
+      }))
+  } 
+
   cargarGeografiaBusqueda(padre:number,palabra:string){
     let url_geografia=`${this.url}/busqueda/${palabra}/${padre}`;
     return this.http.get(url_geografia)

@@ -49,6 +49,7 @@ import { PersonaComponent } from './persona/persona.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { MenuComponent } from './menu/menu.component';
 import { UsuarioComponent } from './usuarios/usuario.component';
+import { AgendaComponent } from './agenda/agenda.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { UsuarioComponent } from './usuarios/usuario.component';
         PersonaComponent,
         UsuariosComponent,
         UsuarioComponent,
-        MenuComponent
+        MenuComponent,
+        AgendaComponent
     ],
     exports:[
         DashboardComponent,

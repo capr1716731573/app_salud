@@ -23,7 +23,7 @@ export class PersonaComponent implements OnInit, AfterViewChecked {
   listaGeografia:any[]=[];
   listaNivelEducacion:any[]=[];
   listaProfesiones:any[]=[];
-  //Adicionales
+   //Adicionales
   listaPais:any[]=[];
   listaProvincia:any[]=[];
   listaCiudad:any[]=[];

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CaptacionVacunasService } from '../../services/captacion-vacunas.service';
 import swal from 'sweetalert2';
 import { TipoVacunasService } from '../../services/tipo-vacunas.service';
-declare var $:any;
+declare var $:any; 
 
 @Component({
   selector: 'app-captacion-vacunas',

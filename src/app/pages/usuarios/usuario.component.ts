@@ -75,6 +75,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   especialidadMedicoTarget:especialidadMedicoModel={
+    pk_espemed:null,
     pk_user:null,
     pk_espec:null,
     codmsp_espcmed:null,
@@ -420,6 +421,7 @@ cargarEspecialidades(){
 
   resetTargetModalEspecilidades(){
     this.especialidadMedicoTarget={
+        pk_espemed:null,
         pk_user:this.usuario.pk_user,
         pk_espec:null,
         codmsp_espcmed:null,
@@ -575,6 +577,7 @@ export interface usuarioModel{
 }
 
 export interface especialidadMedicoModel{
+    pk_espemed:number,
     pk_user:number,
     pk_espec:number,
     codmsp_espcmed:string,

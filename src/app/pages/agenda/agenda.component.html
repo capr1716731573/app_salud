@@ -1,0 +1,255 @@
+<div *ngIf="cargando_tabla">
+    <app-loading1></app-loading1>
+</div>
+
+<div *ngIf="!cargando_tabla">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body p-b-0">
+                    <h4 class="card-title">{{titulo}}</h4>
+                </div>
+                <div class="card-body">
+                    <h4> Búsqueda por rango de fechas</h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label"><b>Desde</b>&nbsp;&nbsp; </label>
+                                <a class="mytooltip tooltip-effect-8">
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="fecha_inicio" name="fecha_inicio" required>
+                                        <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label"><b>Hasta</b>&nbsp;&nbsp; </label>
+                                <a class="mytooltip tooltip-effect-8">
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="fecha_fin" name="fecha_fin" required>
+                                        <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label"><b> </b>&nbsp;&nbsp; </label>
+                                <a class="mytooltip tooltip-effect-8">
+                                    <div class="input-group">
+                                        <button type="button" (click)="buscarFechas()" class="btn btn-md waves-effect waves-light btn-rounded btn-info">Buscar</button>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs customtab" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#listado" role="tab"><span class="hidden-sm-up"><i class="ti-vimeo"></i></span> <span class="hidden-xs-down">Listado</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#calendario" role="tab"><span class="hidden-sm-up"><i class="ti-layout-tab-min"></i></span> <span class="hidden-xs-down">Calendario</span></a> </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane p-20 active" id="listado" role="tabpanel">
+                        <!-- BARRA DE BUSQUEDA -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control col-md-12" placeholder="Buscar...." name="search" [(ngModel)]="filter" DirectivaMayusculas>
+                                    <span class="input-group-btn pointer">
+                                              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAgenda"  (click)="insertar()">
+                                                  <i class="fa fa-plus"></i>   Nuevo
+                                              </button>
+                                      </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <!-- TABLA DE CAPTACION VACUNAS -->
+                        <div class="form-group row ">
+                            <div class="table-responsive pointer col-md-12 ">
+                                <table class="table color-bordered-table primary-bordered-table ">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th scope="col">Código</th> -->
+                                            <th scope="col">Datos</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Hora</th>
+                                            <th scope="col">Ubicación</th>
+                                            <th scope="col">Doctor</th>
+                                            <th scope="col">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of listaAgenda | filter:filter | paginate: { itemsPerPage: 10, currentPage: p }; let i=i ndex ">
+                                            <!-- <td scope="row" data-label="Código">{{item.pk_age}}</td> -->
+                                            <td scope="row" data-label="Datos">{{item.nombres_age}} {{item.apellidos_age}}</td>
+                                            <td data-label="Fecha">{{item.fecha_age | date:"dd/MM/yyyy"}}</td>
+                                            <td data-label="Hora">{{item.hora_age }}</td>
+                                            <td data-label="Ubicación">
+                                                <div *ngIf="item.geografia_agenda.tipo_ubigeo === 'N'">{{item.geografia_agenda.nombre_pais }}</div>
+                                                <div *ngIf="item.geografia_agenda.tipo_ubigeo === 'P'">{{item.geografia_agenda.nombre_provincia }}</div>
+                                                <div *ngIf="item.geografia_agenda.tipo_ubigeo === 'C'">{{item.geografia_agenda.nombre_ciudad }}</div>
+                                                <div *ngIf="item.geografia_agenda.tipo_ubigeo === 'PR'">{{item.geografia_agenda.nombre_parroquia }}</div>
+                                            </td>
+                                            <td data-label="Doctor">{{item.siglas_prof}}. {{item.nombres_person}} {{item.apellidos_person}}</td>
+                                            <td data-label="Acción">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                  <i class="fa fa-file-o"></i>
+                                                  </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" data-toggle="modal" data-target="#modalAgenda" (click)="editar(item)">Editar</a>
+                                                        <a class="dropdown-item" (click)="eliminar(item)">Eliminar</a>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+
+                                <br>
+
+                                <div class="col-12 ">
+                                    <pagination-controls class="pagination" (pageChange)="p=$event "></pagination-controls>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane p-20" id="calendario" role="tabpanel">
+                        <!-- SELECCION DE TIPO DE VACUNA -->
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL REGISTRO DE AGENDA O CITAS -->
+
+<div class="modal fade" id="modalAgenda" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalFormLabel1">Agenda Citas Médicas</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+            </div>
+            <div class="modal-body">
+                <div *ngIf="cargando_accion">
+                    <app-loading2></app-loading2>
+                </div>
+                <div *ngIf="!cargando_accion">
+                    <form #formularioAgenda="ngForm" ngNativeValidate (ngSubmit)="guardar()">
+                        <div class="row">
+
+                            <div class="form-group floating-labels m-b-40 col-md-6">
+                                <label for="txt1" class="control-label"><b>(*) Nombres de quien reserva:</b></label>
+                                <input type="text" class="form-control" [(ngModel)]="agendaTarget.nombres_age" name="nombres_age" id="txt2" placeholder="Ingrese Nombres" required DirectivaMayusculas>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-6">
+                                <label for="txt1" class="control-label"><b>(*) Apellidos de quien reserva:</b></label>
+                                <input type="text" class="form-control" [(ngModel)]="agendaTarget.apellidos_age" name="apellidos_age" id="txt2" placeholder="Ingrese Apellidos" required DirectivaMayusculas>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-6">
+                                <label for="txt1" class="control-label"><b>(*) Ubicación:</b></label>
+                                <ng-select [(ngModel)]="agendaTarget.pk_ubigeo" [clearable]="false" name="pk_ubigeo" bindValue="pk_ubigeo" placeholder="Seleccione.." bindLabel="nombre_ubigeo" [items]="listaUbicacion">
+                                    <ng-template ng-option-tmp let-item="item">
+                                        {{item.nombre_ubigeo}}
+                                        <br>
+                                        <small style="color: blue; font-style: oblique">{{item.tipo}}</small>
+
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-6">
+                                <label for="txt1" class="control-label"><b>(*) Médico:</b></label>
+                                <ng-select [(ngModel)]="agendaTarget.pk_espemed" [clearable]="false" name="pk_espemed" bindValue="pk_espemed" placeholder="Seleccione.." bindLabel="nombres_completos" [items]="listaMedicos">
+                                    <ng-template ng-option-tmp let-item="item">
+                                        <small>{{item.nombres_completos}}</small>
+                                        <br>
+                                        <small style="color: blue; font-style: oblique">{{item.nombre_espec}}</small>
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-4">
+                                <label for="txt1" class="control-label"><b>(*) Fecha Cita:</b></label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control" [min]="fecha_actual" placeholder="mm/dd/yyyy" [(ngModel)]="agendaTarget.fecha_age" name="fecha_age" required>
+                                    <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-4">
+                                <label for="txttime" class="control-label"><b>(*) Hora:</b></label>
+                                <input type="time" class="form-control" min="08:00" max="21:00" [(ngModel)]="agendaTarget.hora_age" name="hora_age" required>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-4">
+                                <label for="txt1" class="control-label"><b>(*) Medio:</b></label>
+                                <select class="form-control custom-select" [(ngModel)]="agendaTarget.medio_age" name="medio_age" placeHolder="Seleccione Medio" required>
+                                    <option id="opt1" value="LLAMADA">LLAMADA</option>
+                                    <option id="opt2" value="PRESENCIAL">PRESENCIAL</option>
+                                    <option id="opt3" value="WHASTAPP">WHASTAPP</option>
+                                    <option id="opt4" value="REDSOCIAL">RED SOCIAL</option>
+                                    <option id="opt5" value="CORREO">CORREO</option>
+                                  </select>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-4">
+                                <label for="txt1" class="control-label"><b>(*) Celular:</b></label>
+                                <input type="text" class="form-control" [(ngModel)]="agendaTarget.celular_age" name="celular_age" id="txt2" placeholder="Ingrese Celular" required DirectivaNumeros>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-4">
+                                <label for="txt1" class="control-label"><b>Teléfono:</b></label>
+                                <input type="text" class="form-control" [(ngModel)]="agendaTarget.telefono_age" name="telefono_age" id="txt2" placeholder="Ingrese Teléfono" DirectivaNumeros>
+                            </div>
+
+                            <div class="form-group floating-labels m-b-40 col-md-4">
+                                <label for="txt1" class="control-label"><b>(*) Estado:</b></label>
+                                <select class="form-control custom-select" [(ngModel)]="agendaTarget.estado_age" name="estado_age" placeHolder="Seleccione Medio" required>
+                                    <option id="opt1" value="PENDIENTE">PENDIENTE</option>
+                                    <option id="opt2" value="ATENDIDA">ATENDIDA</option>
+                                    <option id="opt3" value="CANCELADA">CANCELADA</option>
+                                  </select>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" [disabled]="cargando_accion" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+                            <button type="submit" [disabled]="cargando_accion || formularioAgenda.invalid" class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
