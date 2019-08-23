@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 #themecolors a {
     cursor: pointer;
 }

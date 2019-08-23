@@ -9,6 +9,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MomentModule } from 'ngx-moment';
 import { ToastrModule } from 'ngx-toastr';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 //DIRECTIVAS
 import { NumerosDirective } from '../directivas/numeros/numeros.directive';
@@ -100,7 +101,8 @@ import { AgendaComponent } from './agenda/agenda.component';
         Ng2SearchPipeModule,
         MomentModule,
         BrowserAnimationsModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        NgbModule
     ]
 })
 

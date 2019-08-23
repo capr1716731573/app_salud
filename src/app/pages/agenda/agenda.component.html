@@ -9,46 +9,7 @@
                 <div class="card-body p-b-0">
                     <h4 class="card-title">{{titulo}}</h4>
                 </div>
-                <div class="card-body">
-                    <h4> Búsqueda por rango de fechas</h4>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="control-label"><b>Desde</b>&nbsp;&nbsp; </label>
-                                <a class="mytooltip tooltip-effect-8">
-                                    <div class="input-group">
-                                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="fecha_inicio" name="fecha_inicio" required>
-                                        <span class="input-group-addon"><i class="icon-calender"></i></span>
-                                    </div>
-                                </a>
 
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="control-label"><b>Hasta</b>&nbsp;&nbsp; </label>
-                                <a class="mytooltip tooltip-effect-8">
-                                    <div class="input-group">
-                                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="fecha_fin" name="fecha_fin" required>
-                                        <span class="input-group-addon"><i class="icon-calender"></i></span>
-                                    </div>
-                                </a>
-
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label class="control-label"><b> </b>&nbsp;&nbsp; </label>
-                                <a class="mytooltip tooltip-effect-8">
-                                    <div class="input-group">
-                                        <button type="button" (click)="buscarFechas()" class="btn btn-md waves-effect waves-light btn-rounded btn-info">Buscar</button>
-                                    </div>
-                                </a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 
                 <!-- Nav tabs -->
@@ -59,6 +20,46 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="tab-pane p-20 active" id="listado" role="tabpanel">
+                        <div class="card-body">
+                            <h4> Búsqueda por rango de fechas</h4>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label"><b>Desde</b>&nbsp;&nbsp; </label>
+                                        <a class="mytooltip tooltip-effect-8">
+                                            <div class="input-group">
+                                                <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="fecha_inicio" name="fecha_inicio" required>
+                                                <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label"><b>Hasta</b>&nbsp;&nbsp; </label>
+                                        <a class="mytooltip tooltip-effect-8">
+                                            <div class="input-group">
+                                                <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="fecha_fin" name="fecha_fin" required>
+                                                <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label"><b> </b>&nbsp;&nbsp; </label>
+                                        <a class="mytooltip tooltip-effect-8">
+                                            <div class="input-group">
+                                                <button type="button" (click)="buscarFechas()" class="btn btn-md waves-effect waves-light btn-rounded btn-info">Buscar</button>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- BARRA DE BUSQUEDA -->
                         <div class="row">
                             <div class="col-lg-12">
@@ -131,12 +132,101 @@
 
                     </div>
                     <div class="tab-pane p-20" id="calendario" role="tabpanel">
-                        <!-- SELECCION DE TIPO DE VACUNA -->
+                        <!-- ============================================================== -->
+                        <!-- CALENDARIO -->
+                        <!-- ============================================================== -->
                         <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label"><strong>Seleccione Medico </strong></label>
+                                        <ng-select [(ngModel)]="pk_especialista" [clearable]="false" name="pk_espemed" bindValue="pk_espemed" placeholder="Seleccione.." bindLabel="nombres_completos" [items]="listaMedicos">
+                                            <ng-template ng-option-tmp let-item="item">
+                                                <small>{{item.nombres_completos}}</small>
+                                                <br>
+                                                <small style="color: blue; font-style: oblique">{{item.nombre_espec}}</small>
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+
+                                </div>
+                                <div style="text-align: center">
+                                    <ngb-datepicker #dp [(ngModel)]="modelCalendarioFecha" (select)="seleccionDia($event)"></ngb-datepicker>
+                                </div>
+                                <br>
+
+                                <a class="mytooltip tooltip-effect-8">
+                                    <div class="input-group">
+                                        <button type="button" (click)="cargarAllXFechaEspecialista()" class="btn btn-md waves-effect waves-light btn-block btn-info">Buscar</button>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-8">
+                                <div *ngIf="cargando_tablaxDia">
+                                    <app-loading1></app-loading1>
+                                </div>
+
+                                <div *ngIf="!cargando_tablaxDia">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control col-md-12" placeholder="Buscar...." name="search" [(ngModel)]="filter2" DirectivaMayusculas>
+                                                <span class="input-group-btn pointer">
+                                                              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAgenda"  (click)="insertar()">
+                                                                  <i class="fa fa-plus"></i>   Nuevo
+                                                              </button>
+                                                      </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="table-responsive pointer col-md-12 ">
+                                        <table class="table color-bordered-table warning-bordered-table ">
+                                            <thead>
+                                                <tr>
+                                                    <!-- <th scope="col">Código</th> -->
+                                                    <th scope="col" style="width: 30%">Hora</th>
+                                                    <th scope="col">Nombre (Reserva)</th>
+                                                    <th scope="col">Acción</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of listaAgendaXDia | filter:filter2 | paginate: { itemsPerPage: 10, currentPage: p2 }; let i=index ">
+                                                    <td scope="row" data-label="Hora">{{item.hora_age }}</td>
+                                                    <td data-label="Nombre (Reserva)">{{item.nombres_age}} {{item.apellidos_age}}</td>
+                                                    <td data-label="Acción">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                          <i class="fa fa-file-o"></i>
+                                                          </button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" data-toggle="modal" data-target="#modalAgenda" (click)="editar(item)">Editar</a>
+                                                                <a class="dropdown-item" (click)="eliminar(item)">Eliminar</a>
+
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                        <br>
+                                        <div class="col-12 ">
+                                            <pagination-controls class="pagination" (pageChange)="p2=$event "></pagination-controls>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
 
                     </div>
+
+
 
 
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { AgendaService } from '../../services/agenda.service';
 import { EspecialidadUserService } from '../../services/especialidad-user.service';
 import { GeografiaService } from '../../services/geografia.service';
@@ -7,6 +8,7 @@ import swal from 'sweetalert2';
 import * as moment from 'moment';
 declare var $:any;
 
+
 @Component({
   selector: 'app-agenda',
   templateUrl: './agenda.component.html',
@@ -14,12 +16,14 @@ declare var $:any;
 })
 export class AgendaComponent implements OnInit {
   cargando_tabla:boolean=true;
+  cargando_tablaxDia:boolean=false;
   listaAgenda:any[]=[];
+  listaAgendaXDia:any[]=[];
   listaMedicos:any[]=[];
   listaUbicacion:any[]=[];
   captacionVacunasTarget:any;
-  fecha_inicio=moment().subtract(1, 'months').format('YYYY-MM-DD');
-  fecha_fin=moment().add(1, 'months').format('YYYY-MM-DD');
+  fecha_inicio:any=moment().subtract(1, 'months').format('YYYY-MM-DD');
+  fecha_fin:any=moment().add(1, 'months').format('YYYY-MM-DD');
   fecha_actual=moment().format('YYYY-MM-DD');
   hora_actual=moment().format('HH:mm');
   //para el nuevo registro, los campos varian de acuerdo a la tabla que estas
@@ -51,14 +55,37 @@ export class AgendaComponent implements OnInit {
     showConfirmButton: false,
     timer: 3000
   });
+
+  /*   Variables Calendario y Segundo Tab*/
+  modelCalendarioFecha: NgbDateStruct;
+  date: {year: number, month: number};
+  pk_especialista:any;
+  fecha_cita:any;
+
+
+
   constructor( public _agendaService:AgendaService,
                public _especialidad_medico:EspecialidadUserService,
                public _ubicacionGeograficaService:GeografiaService,
-               public _settingsService:SettingsService) { 
-
+               public _settingsService:SettingsService,
+               private calendar: NgbCalendar) { 
                
+             
                }
-
+/************** */
+  
+  selectToday() {
+    this.modelCalendarioFecha = this.calendar.getToday();
+    
+  }
+  seleccionDia(dia:any){
+    this.fecha_cita=`${this.modelCalendarioFecha.year}-${this.modelCalendarioFecha.month}-${this.modelCalendarioFecha.day}`;
+    this.fecha_cita=moment(this.fecha_cita).format('YYYY-MM-DD');
+    console.error(this.fecha_cita);
+    
+  }
+  
+/******************* */
   ngOnInit() { 
     this.cargarAll();
     this.cargarUbicacionGeografica();
@@ -90,6 +117,24 @@ export class AgendaComponent implements OnInit {
         })
   }
 
+  cargarAllXFechaEspecialista(){
+   
+    if(!this.fecha_cita || this.pk_especialista==0 || !this.pk_especialista){
+      swal.fire(
+        `Falta Parámetros`,
+        'Debe seleccionar la fecha y el médico para realizar la búsqueda',
+        'error'
+      )
+    }else{
+      this.cargando_tablaxDia=true;
+      this._agendaService.cargarDatosXDia(this.pk_especialista,this.fecha_cita)
+          .subscribe((datos:any)=>{
+            this.listaAgendaXDia=Object.values(datos.data);
+            this.cargando_tablaxDia=false;
+          })
+      }
+  }
+
   buscarFechas(){
     if(this.fecha_inicio > this.fecha_fin){
       swal.fire(
@@ -98,8 +143,19 @@ export class AgendaComponent implements OnInit {
         'error'
       )
     }else{
-      this.cargando_tabla=true;
-      this.cargarAll();
+      let intervaloDiasBsq=moment(this.fecha_fin).diff(moment(this.fecha_inicio), 'days');
+      if (intervaloDiasBsq <= 180){
+        this.cargando_tabla=true;
+        this.cargarAll();
+      }else{
+        swal.fire(
+          `Revisar Intervalo de Fechas`,
+          'El intervalo de fechas para búsqueda es máximo de 6 meses.',
+          'error'
+        )
+      }
+      
+     
     }
     
   }
@@ -174,7 +230,10 @@ guardar(){
   .subscribe((resp:any) => {
     
     this.cargarAll();
-    //swal.fire(`Registro ${accion}!!`)
+    if(this.fecha_cita && this.pk_especialista){
+      this.cargarAllXFechaEspecialista();
+    }
+    
     swal.fire({
       //position: 'top',
       type: 'success',
@@ -224,6 +283,9 @@ resetTarget(){
         this._agendaService.crud('D',row)
             .subscribe((resp:any) => {
               this.cargarAll();
+              if(this.fecha_cita && this.pk_especialista){
+                this.cargarAllXFechaEspecialista();
+              }
               swal.fire({
                 //position: 'top',
                 type: 'success',
